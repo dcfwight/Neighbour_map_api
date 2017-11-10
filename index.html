@@ -15,7 +15,7 @@
 	</div>
 	<div id="marker_list">
 		<ul data-bind="foreach: placesList">
-			<li data-bind="text: name"></li>
+			<li data-bind="text: title"></li>
 		</ul>
 	</div>
 	<div id="map"></div>
@@ -45,7 +45,12 @@
 				{title: "Arthur's Seat",
 				location: {lat: 55.94408250000001,
 					lng: -3.1618324 }
+				},
+				{title: "Royal Yacht Britannia",
+				location: {lat: 55.9821554,
+					lng: -3.1772521 }
 				}
+				
 			];
 			
 			var bounds = new google.maps.LatLngBounds();

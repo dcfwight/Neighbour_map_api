@@ -1,16 +1,23 @@
 //------------Initial data for markers---------------------------------------//
 var places = [
-	{name: "Edinburgh Castle",
-	place_id: "ChIJ98CZIJrHh0gRWApM5esemkY"},
-	
-	{name: "Arthur's Seat",
-	place_id: "ChIJuSIvEYS4h0gR8EyTQWxGiiE"
-	}
-]
-
+				{title: "Edinburgh Castle",
+				location: {lat: 55.9485947,
+							lng: -3.1999135 }
+				},
+				
+				{title: "Arthur's Seat",
+				location: {lat: 55.94408250000001,
+							lng: -3.1618324 }
+				},
+				{title: "Royal Yacht Britannia",
+				location: {lat: 55.9821554,
+							lng: -3.1772521 }
+				}
+				
+			];
 var Marker = function(data) {
-	this.name=ko.observable(data.name);
-	this.place_id=ko.observable(data.place_id);
+	this.title=ko.observable(data.title);
+	this.location=ko.observable(data.location);
 };
 
 //-------------- ViewModel ---------------------------------------------------//

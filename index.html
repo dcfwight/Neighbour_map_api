@@ -27,6 +27,172 @@
 	<script>
 		//Initialize the map
 		console.log('Google maps API call completed')
+		var test = [
+			var a 
+		]
+		
+		var styles=[
+		// Go to snazzymaps.com at end of Project to custom style.
+			{
+				"featureType": "administrative",
+				"elementType": "all",
+				"stylers": [
+					{
+						"visibility": "on"
+					}
+				]
+			},{
+				"featureType": "administrative",
+				"elementType": "labels.text.fill",
+				"stylers": [
+					{
+						"color": "#444444"
+					}
+				]
+			},{
+				"featureType": "administrative.country",
+				"elementType": "geometry.fill",
+				"stylers": [
+					{
+						"lightness": "-63"
+					}
+				]
+			},{
+				"featureType": "administrative.province",
+				"elementType": "labels",
+				"stylers": [
+					{
+						"visibility": "off"
+					}
+				]
+			},{
+				"featureType": "administrative.locality",
+				"elementType": "labels",
+				"stylers": [
+					{
+						"visibility": "on"
+					},
+					{
+						"color": "#ff7200"
+					},
+					{
+						"weight": "0.64"
+					}
+				]
+			},{
+				"featureType": "administrative.land_parcel",
+				"elementType": "geometry",
+				"stylers": [
+					{
+						"saturation": "-47"
+					},
+					{
+						"lightness": "-22"
+					},
+					{
+						"gamma": "4.71"
+					},
+					{
+						"weight": "5.04"
+					},
+					{
+						"visibility": "on"
+					},
+					{
+						"color": "#d21f1f"
+					}
+				]
+			},{
+				"featureType": "landscape",
+				"elementType": "all",
+				"stylers": [
+					{
+						"color": "#f2f2f2"
+					}
+				]
+			},{
+				"featureType": "poi",
+				"elementType": "all",
+				"stylers": [
+					{
+						"visibility": "off"
+					}
+				]
+			},{
+				"featureType": "road",
+				"elementType": "all",
+				"stylers": [
+					{
+						"saturation": -100
+					},
+					{
+						"lightness": 45
+					}
+				]
+			},{
+				"featureType": "road.highway",
+				"elementType": "all",
+				"stylers": [
+					{
+						"visibility": "simplified"
+					}
+				]
+			},{
+				"featureType": "road.highway",
+				"elementType": "geometry.fill",
+				"stylers": [
+					{
+						"visibility": "on"
+					},
+					{
+						"color": "#ffffff"
+					}
+				]
+			},{
+				"featureType": "road.highway",
+				"elementType": "geometry.stroke",
+				"stylers": [
+					{
+						"color": "#be2727"
+					}
+				]
+			},{
+				"featureType": "road.arterial",
+				"elementType": "labels.icon",
+				"stylers": [
+					{
+						"visibility": "off"
+					}
+				]
+			},{
+				"featureType": "transit",
+				"elementType": "all",
+				"stylers": [
+					{
+						"visibility": "off"
+					}
+				]
+			},{
+				"featureType": "water",
+				"elementType": "all",
+				"stylers": [
+					{
+						"color": "#46bcec"
+					},
+					{
+						"visibility": "on"
+					}
+				]
+			},{
+				"featureType": "water",
+				"elementType": "geometry.fill",
+				"stylers": [
+					{
+						"color": "#003781"
+					}
+				]
+			}
+		];
 		var map;
 		var markers = [];
 		
@@ -34,7 +200,8 @@
 		function initMap () {
 			map = new google.maps.Map(document.getElementById('map'),
 			{center: init_lat_lng,
-			zoom: 10
+			zoom: 10,
+			styles: styles
 			});
 			var places = [
 				{title: "Edinburgh Castle",

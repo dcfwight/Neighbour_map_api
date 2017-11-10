@@ -29,6 +29,7 @@
 		console.log('Google maps API call completed')
 		var map;
 		var markers = [];
+		
 		var init_lat_lng = {lat: 55.9533, lng: -3.1833};
 		function initMap () {
 			map = new google.maps.Map(document.getElementById('map'),
@@ -46,18 +47,38 @@
 					lng: -3.1618324 }
 				}
 			];
+			
 			var bounds = new google.maps.LatLngBounds();
+			var infoWindow = new google.maps.InfoWindow();
 			
 			for (var i=0; i< places.length; i++){
 				var location=places[i].location;
+				var title=places[i].title;
 				var marker = new google.maps.Marker({
 					map: map,
-					position: location
+					position: location,
+					title: title
 				});
 				markers.push(marker);
 				bounds.extend(markers[i].position);
+				marker.addListener('click', function (){
+					populateInfoWindow(this, infoWindow);
+				});
 			}
 			map.fitBounds(bounds);
+		};
+		
+		function populateInfoWindow(marker, infoWindow) {
+		// check to make sure the infoWindow is not already this one.
+			if (infoWindow.marker != marker) {
+				infoWindow.marker = marker;
+				infoWindow.setContent('<div>' + marker.title + '</div>');
+				infoWindow.open(map, marker);
+				// Make sure the marker property is cleared if the infowindow is closed.
+				infoWindow.addListener('closeclick',function(){
+					infoWindow.setMarker = null;
+				});
+			}
 		};
 	</script>
 	<!--Load the googlemaps API asynchronously and pass in the initMap function

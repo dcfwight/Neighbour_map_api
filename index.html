@@ -12,7 +12,7 @@
 <body>
 	<div class="container">
 		<div class="options-box" id="marker_list">
-			<h2>Tourist Attractions</h2>
+			<h2>Tourist Attractions in Edinburgh</h2>
 			<ul data-bind="foreach: placesList">
 				<li data-bind="text: title"></li>
 			</ul>
@@ -251,6 +251,26 @@
 				});
 			}
 		};
+		
+		function showPoints() {
+			var bounds = new google.maps.LatLngBounds();
+			// Extend the boundaries of the map for each marker and display the marker
+			for (var i = 0; i < markers.length; i++) {
+				markers[i].setMap(map);
+				bounds.extend(markers[i].position);
+			}
+			map.fitBounds(bounds);
+		};
+		
+		function hidePoints() {
+			for (var i = 0; i < markers.length; i++) {
+				markers[i].setMap(null);
+			}
+		}
+		
+		document.getElementById('show-points').addEventListener('click', showPoints);
+        document.getElementById('hide-points').addEventListener('click', hidePoints);
+		
 	</script>
 	<!--Load the googlemaps API asynchronously and pass in the initMap function
 	into the callback-->

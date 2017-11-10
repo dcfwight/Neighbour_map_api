@@ -1,0 +1,23 @@
+{
+  "name": "neighbours",
+  "homepage": "https://github.com/dcfwight/neighbours",
+  "authors": [
+    "Doug Wight <dcfwight@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.2.1",
+    "knockout": "^3.4.2"
+  }
+}

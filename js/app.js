@@ -50,12 +50,19 @@ var AppViewModel= function() {
 	});
 	
 	document.getElementById('hide-points').addEventListener('click',  hidePoints);
+	document.getElementById('show-points').addEventListener('click', showPoints);
 	
 	function hidePoints() {
 		for (var i = 0; i < self.placesList().length; i++) {
 			self.placesList()[i].marker.setMap(null);
 		}
 	};
+	
+	function showPoints() {
+		for (var i=0; i < self.placesList().length; i++) {
+			self.placesList()[i].marker.setMap(map);
+		}
+	}
 }
 
 
@@ -132,15 +139,7 @@ function populateInfoWindow(marker, infoWindow) {
 	}
 };
 
-//function showPoints() {
-//	var bounds = new google.maps.LatLngBounds();
-//	// Extend the boundaries of the map for each marker and display the marker
-//	for (var i = 0; i < markers.length; i++) {
-//		markers[i].setMap(map);
-//		bounds.extend(markers[i].position);
-//	}
-//	map.fitBounds(bounds);
-//};
+
 
 
 var styles=[

@@ -55,7 +55,9 @@
 					position: location
 				});
 				markers.push(marker);
-			};
+				bounds.extend(markers[i].position);
+			}
+			map.fitBounds(bounds);
 		};
 	</script>
 	<!--Load the googlemaps API asynchronously and pass in the initMap function

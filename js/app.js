@@ -48,6 +48,14 @@ var AppViewModel= function() {
 	places.forEach(function(place){
 		self.placesList.push(new Place(place));
 	});
+	
+	document.getElementById('hide-points').addEventListener('click',  hidePoints);
+	
+	function hidePoints() {
+		for (var i = 0; i < self.placesList().length; i++) {
+			self.placesList()[i].marker.setMap(null);
+		}
+	};
 }
 
 
@@ -90,7 +98,7 @@ function initMap  () {
 	// mouses over the marker.
 	var highlightedIcon = makeMarkerIcon('FFFF24');
 	
-	var infoWindow = new google.maps.InfoWindow();
+
 	
 	document.getElementById('show-points').addEventListener('click', console.log('click'));
 	document.getElementById('hide-points').addEventListener('click', console.log('click'));
@@ -134,11 +142,7 @@ function populateInfoWindow(marker, infoWindow) {
 //	map.fitBounds(bounds);
 //};
 
-//function hidePoints() {
-//	for (var i = 0; i < markers.length; i++) {
-//		markers[i].setMap(null);
-//	}
-//};
+
 var styles=[
 // Styling object for Googlemaps
 // Go to snazzymaps.com at end of Project to custom style.

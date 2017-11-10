@@ -66,21 +66,11 @@ function initMap  () {
 	);
 	var bounds = new google.maps.LatLngBounds();
 	
+	// extend the bounds for all the items in places
 	for (var i=0; i< places.length; i++){
-		var location=places[i].location;
-		var title=places[i].title;
-		//var marker = new google.maps.Marker({
-		//	map: map,
-		//	position: location,
-		//	title: title,
-		//	animation: google.maps.Animation.DROP,
-		//	icon: defaultIcon
-		//});
-		//markers.push(marker);
-		//bounds.extend(markers[i].position);
-		//marker.addListener('click', function (){
-			//populateInfoWindow(this, infoWindow);
-		//});
+		bounds.extend(places[i].location);
+		map.fitBounds(bounds);
+		
 		
 		// Two event listeners - one for mouseover, one for mouseout,
 		// to change the colors back and forth.

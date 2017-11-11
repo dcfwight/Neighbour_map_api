@@ -2,16 +2,29 @@
 var places = [
 				{title: "Edinburgh Castle",
 				location: {lat: 55.9485947,
-							lng: -3.1999135 }
+							lng: -3.1999135 },
+				type: 'Attraction'
 				},
 				
 				{title: "Arthur's Seat",
 				location: {lat: 55.94408250000001,
-							lng: -3.1618324 }
+							lng: -3.1618324 },
+				type: 'Attraction'
 				},
 				{title: "Royal Yacht Britannia",
 				location: {lat: 55.9821554,
-							lng: -3.1772521 }
+							lng: -3.1772521 },
+				type: 'Attraction'
+				},
+				{title: "The Witchery",
+				location: {lat: 55.948789,
+							lng: -3.195628},
+				type: 'Restaurant'
+				},
+				{title: "The Kitchen",
+				location: {lat: 55.97703809999999,
+							lng: -3.1726892},
+				type: 'Restaurant'
 				}
 			];
 
@@ -25,6 +38,7 @@ var Place = function(data, index) {
 	var self = this;
 	self.index = index;
 	self.title=ko.observable(data.title);
+	self.type = data.type;
 	self.location=data.location;
 	self.clicked = function() {
 		this.marker.setMap(map);
@@ -41,6 +55,7 @@ var Place = function(data, index) {
 	self.marker.setIcon(defaultIcon);
 	self.marker.setMap(map);
 	self.marker.addListener('click', function() {
+		console.log(self.type);
 		self.infoWindow.open(map, this);
 	});
 	self.marker.addListener('mouseover', function() {

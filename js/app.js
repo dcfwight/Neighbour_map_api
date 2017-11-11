@@ -39,6 +39,7 @@ var defaultIcon;
 var highlightIcon;
 var fourSqClientID = 'PTZJNN0ILNJ4HWNC0J2LUI2UW02C0Q3SVLYBRASAJLK4MELP';
 var fourSqClientSecret = '33SQ5OOVGO1HOJOZLSI3DUCWBMDGCHGUYNRBUER2RRAVV2IC';
+var $error_report = $('#error_report');
 
 // Note - have added an index, to map to the parent object called placesList
 var Place = function(data, index) {
@@ -76,7 +77,7 @@ var Place = function(data, index) {
 	});
 	//console.log(self.title() + ' added. It is a ' + self.type);
 	if (self.type == 'restaurant' && self.fourSqID) {
-		var fourSqUrl = ('https://api.foursquare.com/v2/venues/' + self.fourSqID
+		var fourSqUrl = ('https://api.foursquare.com/v2/venue/' + self.fourSqID
 					 + '?client_id=' + fourSqClientID
 					 + '&client_secret=' + fourSqClientSecret
 					 + '&v=20171111')
@@ -84,8 +85,11 @@ var Place = function(data, index) {
 		$.getJSON(fourSqUrl)
 			.done(function (data) {
 				console.log(data.response);
-			}).fail(function () {
-				console.log('failed to retrieve data')
+			}).fail(function (e) {
+				var errStr = ('Failed to retrieve data from FourSquare. ' +e.status+ ': '
+								+ e.statusText);
+				console.log(errStr);
+				$error_report.text(errStr);
 			});
 	}
 };

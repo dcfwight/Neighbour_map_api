@@ -16,14 +16,18 @@ var places = [
 			];
 
 var map;
+var defaultIcon;
+var highlightIcon;
 
-var Place = function(data) {
+// Note - have added an index, to map to the parent object called placesList
+var Place = function(data, index) {
 	var self = this;
+	self.index = index;
 	self.title=ko.observable(data.title);
 	self.location=data.location;
 	self.clicked = function() {
 		console.log(self.title() + ' clicked');
-		console.log("selected: " + self.selected());
+		console.log("index: " + self.index);
 	};
 	self.selected=ko.observable(false);
 	self.visible=ko.observable(true);
@@ -34,9 +38,18 @@ var Place = function(data) {
 		title: self.title(),
 		animation: google.maps.Animation.DROP
 	});
+	self.marker.setIcon(defaultIcon);
 	self.marker.setMap(map);
 	self.marker.addListener('click', function() {
 		self.infoWindow.open(map, this);
+	});
+	self.marker.addListener('mouseover', function() {
+		console.log('mouseover');
+		self.marker.setIcon(highlightIcon);
+	});
+	self.marker.addListener('mouseout', function() {
+		console.log('mouseout');
+		self.marker.setIcon(defaultIcon)
 	});
 };
 
@@ -45,14 +58,13 @@ var AppViewModel= function() {
 	var self = this;
 	
 	self.placesList = ko.observableArray([]);
-	places.forEach(function(place){
-		self.placesList.push(new Place(place));
+	places.forEach(function(place, index){
+		self.placesList.push(new Place(place, index));
 	});
 	
-	document.getElementById('hide-points').addEventListener('click',  hidePoints);
+	document.getElementById('hide-points').addEventListener('click', hidePoints);
 	document.getElementById('show-points').addEventListener('click', showPoints);
-	
-	function hidePoints() {
+		function hidePoints() {
 		for (var i = 0; i < self.placesList().length; i++) {
 			self.placesList()[i].marker.setMap(null);
 		}
@@ -85,7 +97,26 @@ function initMap  () {
 	for (var i=0; i< places.length; i++){
 		bounds.extend(places[i].location);
 		map.fitBounds(bounds);
-		
+	
+	var defaultIcon = new google.maps.MarkerImage(
+		'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ '0091ef' +
+		'|40|_|%E2%80%A2',
+		new google.maps.Size(21, 34),
+		new google.maps.Point(0, 0),
+		new google.maps.Point(10, 34),
+		new google.maps.Size(21,34)
+	);
+	
+	var highlightIcon = new google.maps.MarkerImage(
+		'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ 'FFFF24' +
+		'|40|_|%E2%80%A2',
+		new google.maps.Size(21, 34),
+		new google.maps.Point(0, 0),
+		new google.maps.Point(10, 34),
+		new google.maps.Size(21,34)
+	);
+	
+	
 		
 		// Two event listeners - one for mouseover, one for mouseout,
 		// to change the colors back and forth.
@@ -99,32 +130,20 @@ function initMap  () {
 	//	map.fitBounds(bounds);
 	};
 	// Styled default icon
-	var defaultIcon = makeMarkerIcon('0091ef');
+	
 	
 	// Styled highlight icon for when the user
 	// mouses over the marker.
-	var highlightedIcon = makeMarkerIcon('FFFF24');
+	
 	
 
-	
-	document.getElementById('show-points').addEventListener('click', console.log('click'));
-	document.getElementById('hide-points').addEventListener('click', console.log('click'));
 	
 	// Activate knockout.js
 	ko.applyBindings(new AppViewModel());
 }
 
-function makeMarkerIcon(markerColor) {
-	var markerImage = new google.maps.MarkerImage(
-		'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
-		'|40|_|%E2%80%A2',
-		new google.maps.Size(21, 34),
-		new google.maps.Point(0, 0),
-		new google.maps.Point(10, 34),
-		new google.maps.Size(21,34)
-	);
-	return markerImage;
-};
+
+
 
 function populateInfoWindow(marker, infoWindow) {
 // check to make sure the infoWindow is not already this one.

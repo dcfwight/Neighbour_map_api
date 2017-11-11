@@ -114,29 +114,7 @@ function initMap  () {
 		new google.maps.Point(10, 34),
 		new google.maps.Size(21,34)
 	);
-	
-	
-		
-		// Two event listeners - one for mouseover, one for mouseout,
-		// to change the colors back and forth.
-	//	marker.addListener('mouseover', function() {
-	//		this.setIcon(highlightedIcon);
-	//	});
-	//	marker.addListener('mouseout', function() {
-	//		this.setIcon(defaultIcon);
-	//	});
-	//
-	//	map.fitBounds(bounds);
-	};
-	// Styled default icon
-	
-	
-	// Styled highlight icon for when the user
-	// mouses over the marker.
-	
-	
 
-	
 	// Activate knockout.js
 	ko.applyBindings(new AppViewModel());
 }

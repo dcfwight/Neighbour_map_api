@@ -16,6 +16,7 @@ var places = [
 			];
 
 var map;
+var markers;
 var defaultIcon;
 var highlightIcon;
 
@@ -80,9 +81,9 @@ var AppViewModel= function() {
 //Initialize the map - this is called in callback after googlemaps api link
 var init_lat_lng = {lat: 55.9533, lng: -3.1833};
 function initMap  () {
-	console.log('Google maps API call completed');
+	console.log('Google maps API call completed - initializing map');
 
-	var markers = [];
+	//var markers = [];
 
 	map = new google.maps.Map(document.getElementById('map'),
 		{center: init_lat_lng,
@@ -96,6 +97,7 @@ function initMap  () {
 	for (var i=0; i< places.length; i++){
 		bounds.extend(places[i].location);
 		map.fitBounds(bounds);
+	}
 	
 	var defaultIcon = new google.maps.MarkerImage(
 		'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ '0091ef' +

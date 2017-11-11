@@ -73,21 +73,37 @@ var Place = function(data, index) {
 	});
 	self.marker.addListener('mouseout', function() {
 		console.log('mouseout');
-		self.marker.setIcon(defaultIcon)
+		self.marker.setIcon(defaultIcon);
 	});
 	//console.log(self.title() + ' added. It is a ' + self.type);
 	if (self.type == 'restaurant' && self.fourSqID) {
-		var fourSqUrl = ('https://api.foursquare.com/v2/venue/' + self.fourSqID
-					 + '?client_id=' + fourSqClientID
-					 + '&client_secret=' + fourSqClientSecret
-					 + '&v=20171111')
+		var fourSqUrl = ('https://api.foursquare.com/v2/venues/' + self.fourSqID+
+					'?client_id=' + fourSqClientID +
+					'&client_secret=' + fourSqClientSecret +
+					'&v=20171111');
 		
 		$.getJSON(fourSqUrl)
 			.done(function (data) {
 				console.log(data.response);
 			}).fail(function (e) {
-				var errStr = ('Failed to retrieve data from FourSquare. ' +e.status+ ': '
-								+ e.statusText);
+				var errStr = ('Failed to retrieve data from FourSquare. ' +
+							e.status+ ': '+ e.statusText);
+				console.log(errStr);
+				$error_report.text(errStr);
+			});
+	}
+	if (self.type == 'attraction') {
+		var title_adjust = self.title().replace(new RegExp(" ", "g"), '+');
+		var wikiUrl = ('https://en.wikipedia.org/w/api.php?action=opensearch' +
+					'&search='+ title_adjust +
+					'&origin=*');
+		var wikiUrlencode = encodeURI(wikiUrl);
+		$.getJSON(wikiUrlencode)
+			.done(function(data) {
+				console.log(data);
+			}).fail(function (e){
+				var errStr = ('Failed to retrieve data from Wikipedia. ' +
+							e.status+ ': '+ e.statusText);
 				console.log(errStr);
 				$error_report.text(errStr);
 			});
@@ -126,12 +142,17 @@ function initMap  () {
 
 	//var markers = [];
 
-	map = new google.maps.Map(document.getElementById('map'),
-		{center: init_lat_lng,
-		zoom: 10,
-		styles: styles
-		}
-	);
+	try {map = new google.maps.Map(document.getElementById('map'),
+			{center: init_lat_lng,
+			zoom: 10,
+			styles: styles
+			}
+		);
+	}
+	
+	catch (err) {
+		console.log(err.message);
+	}
 	var bounds = new google.maps.LatLngBounds();
 	
 	// extend the bounds for all the items in places

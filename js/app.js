@@ -26,9 +26,8 @@ var Place = function(data, index) {
 	self.title=ko.observable(data.title);
 	self.location=data.location;
 	self.clicked = function() {
-		console.log(self.title() + ' clicked');
-		console.log("index: " + self.index);
-	};
+		this.marker.setMap(map);
+		};
 	self.selected=ko.observable(false);
 	self.visible=ko.observable(true);
 	self.description = self.title() + ", Edinburgh";

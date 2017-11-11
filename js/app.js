@@ -3,28 +3,33 @@ var places = [
 				{title: "Edinburgh Castle",
 				location: {lat: 55.9485947,
 							lng: -3.1999135 },
-				type: 'attraction'
+				type: 'attraction',
+				fourSqID: ''
 				},
 				
 				{title: "Arthur's Seat",
 				location: {lat: 55.94408250000001,
 							lng: -3.1618324 },
-				type: 'attraction'
+				type: 'attraction',
+				fourSqID: ''
 				},
 				{title: "Royal Yacht Britannia",
 				location: {lat: 55.9821554,
 							lng: -3.1772521 },
-				type: 'attraction'
+				type: 'attraction',
+				fourSqID: ''
 				},
 				{title: "The Witchery",
 				location: {lat: 55.948789,
 							lng: -3.195628},
-				type: 'restaurant'
+				type: 'restaurant',
+				fourSqID: '4bce2e1eef109521b1aa8386'
 				},
 				{title: "The Kitchen",
 				location: {lat: 55.97703809999999,
 							lng: -3.1726892},
-				type: 'restaurant'
+				type: 'restaurant',
+				fourSqID: '4b59ff2bf964a5209ca628e3'
 				}
 			];
 
@@ -32,6 +37,8 @@ var map;
 var markers;
 var defaultIcon;
 var highlightIcon;
+var fourSqClientID = 'PTZJNN0ILNJ4HWNC0J2LUI2UW02C0Q3SVLYBRASAJLK4MELP';
+var fourSqClientSecret = '33SQ5OOVGO1HOJOZLSI3DUCWBMDGCHGUYNRBUER2RRAVV2IC';
 
 // Note - have added an index, to map to the parent object called placesList
 var Place = function(data, index) {
@@ -39,6 +46,7 @@ var Place = function(data, index) {
 	self.index = index;
 	self.title=ko.observable(data.title);
 	self.type = data.type;
+	self.fourSqID = data.fourSqID;
 	self.location=data.location;
 	self.clicked = function() {
 		this.marker.setMap(map);
@@ -66,7 +74,20 @@ var Place = function(data, index) {
 		console.log('mouseout');
 		self.marker.setIcon(defaultIcon)
 	});
-	console.log(self.title() + ' added. It is a ' + self.type);
+	//console.log(self.title() + ' added. It is a ' + self.type);
+	if (self.type == 'restaurant' && self.fourSqID) {
+		var fourSqUrl = ('https://api.foursquare.com/v2/venues/' + self.fourSqID
+					 + '?client_id=' + fourSqClientID
+					 + '&client_secret=' + fourSqClientSecret
+					 + '&v=20171111')
+		
+		$.getJSON(fourSqUrl)
+			.done(function (data) {
+				console.log(data.response);
+			}).fail(function () {
+				console.log('failed to retrieve data')
+			});
+	}
 };
 
 //-------------- ViewModel ---------------------------------------------------//

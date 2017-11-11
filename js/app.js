@@ -3,28 +3,28 @@ var places = [
 				{title: "Edinburgh Castle",
 				location: {lat: 55.9485947,
 							lng: -3.1999135 },
-				type: 'Attraction'
+				type: 'attraction'
 				},
 				
 				{title: "Arthur's Seat",
 				location: {lat: 55.94408250000001,
 							lng: -3.1618324 },
-				type: 'Attraction'
+				type: 'attraction'
 				},
 				{title: "Royal Yacht Britannia",
 				location: {lat: 55.9821554,
 							lng: -3.1772521 },
-				type: 'Attraction'
+				type: 'attraction'
 				},
 				{title: "The Witchery",
 				location: {lat: 55.948789,
 							lng: -3.195628},
-				type: 'Restaurant'
+				type: 'restaurant'
 				},
 				{title: "The Kitchen",
 				location: {lat: 55.97703809999999,
 							lng: -3.1726892},
-				type: 'Restaurant'
+				type: 'restaurant'
 				}
 			];
 
@@ -66,6 +66,7 @@ var Place = function(data, index) {
 		console.log('mouseout');
 		self.marker.setIcon(defaultIcon)
 	});
+	console.log(self.title() + ' added. It is a ' + self.type);
 };
 
 //-------------- ViewModel ---------------------------------------------------//

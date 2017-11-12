@@ -4,32 +4,37 @@ var places = [
 				location: {lat: 55.9485947,
 							lng: -3.1999135 },
 				type: 'attraction',
-				fourSqID: ''
+				fourSqID: '',
+				gPlaceID: '7656260f957b68a9673d268fed9f07d30bd5f06a'
 				},
 				
 				{title: "Arthur's Seat",
 				location: {lat: 55.94408250000001,
 							lng: -3.1618324 },
 				type: 'attraction',
-				fourSqID: ''
+				fourSqID: '',
+				gPlaceID: '102c0de3e8d21d1511aaf54c8699ecc636cdb64d'
 				},
 				{title: "Royal Yacht Britannia",
 				location: {lat: 55.9821554,
 							lng: -3.1772521 },
 				type: 'attraction',
-				fourSqID: ''
+				fourSqID: '',
+				gPlaceID: '227950d8c495494a7120d1a054f55c36dd2be003'
 				},
 				{title: "The Witchery",
 				location: {lat: 55.948789,
 							lng: -3.195628},
 				type: 'restaurant',
-				fourSqID: '4bce2e1eef109521b1aa8386'
+				fourSqID: '4bce2e1eef109521b1aa8386',
+				gPlaceID: '729b80487507e8ddaf259370c6813b44182a28d9'
 				},
 				{title: "The Kitchen",
 				location: {lat: 55.97703809999999,
 							lng: -3.1726892},
 				type: 'restaurant',
-				fourSqID: '4b59ff2bf964a5209ca628e3'
+				fourSqID: '4b59ff2bf964a5209ca628e3',
+				gPlaceID: 'c1b1a2a52d3d945b085f6bda7ab4a439a592428c'
 				}
 			];
 
@@ -145,14 +150,14 @@ var AppViewModel= function() {
 
 
 //Initialize the map - this is called in callback after googlemaps api link
-var init_lat_lng = {lat: 55.9533, lng: -3.1833};
+
 function initMap  () {
 	console.log('Google maps API call completed - initializing map');
-
+	var edinburgh = {lat: 55.9533, lng: -3.1833};
 	//var markers = [];
 
 	try {map = new google.maps.Map(document.getElementById('map'),
-			{center: init_lat_lng,
+			{center: edinburgh,
 			zoom: 10,
 			styles: styles
 			}

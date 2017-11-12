@@ -33,6 +33,7 @@ var places = [
 				}
 			];
 
+
 var map;
 var markers;
 var defaultIcon;
@@ -98,15 +99,23 @@ var Place = function(data, index) {
 					'&search='+ title_adjust +
 					'&origin=*');
 		var wikiUrlencode = encodeURI(wikiUrl);
+		var mainTitle = '';
+		// get wikipedia data
 		$.getJSON(wikiUrlencode)
 			.done(function(data) {
-				console.log(data);
+				var mainTitle = data[0];
+				var title = data[1][0];
+				var desc = data[2][0];
+				var url = data[3][0];
+				console.log(mainTitle +', '+ title + ', '+ desc, url);
 			}).fail(function (e){
 				var errStr = ('Failed to retrieve data from Wikipedia. ' +
 							e.status+ ': '+ e.statusText);
 				console.log(errStr);
 				$error_report.text(errStr);
 			});
+		
+
 	}
 };
 

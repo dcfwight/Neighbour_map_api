@@ -133,8 +133,8 @@ var AppViewModel= function() {
 		self.placesList.push(new Place(place, index));
 	});
 	
-	document.getElementById('hide-points').addEventListener('click', hidePoints);
-	document.getElementById('show-points').addEventListener('click', showPoints);
+	$('#hide-points').on('click', hidePoints);
+	$('#show-points').on('click', showPoints);
 		function hidePoints() {
 		for (var i = 0; i < self.placesList().length; i++) {
 			self.placesList()[i].marker.setMap(null);

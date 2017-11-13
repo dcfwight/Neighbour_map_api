@@ -133,19 +133,42 @@ var AppViewModel= function() {
 		self.placesList.push(new Place(place, index));
 	});
 	
-	$('#hide-points').on('click', hidePoints);
-	$('#show-points').on('click', showPoints);
-		function hidePoints() {
-		for (var i = 0; i < self.placesList().length; i++) {
-			self.placesList()[i].marker.setMap(null);
-		}
-	};
+	$('#hide-points').click({selection: 'All'}, hidePoints);
+	$('#show-points').click({selection: 'All'}, showPoints);
+	$('#hide-attractions').click({selection: 'attraction'}, hidePoints);
+	$('#show-attractions').click({selection: 'attraction'}, showPoints);
+	$('#hide-restaurants').click({selection: 'restaurant'}, hidePoints);
+	$('#show-restaurants').click({selection: 'restaurant'}, showPoints);
 	
-	function showPoints() {
-		for (var i=0; i < self.placesList().length; i++) {
-			self.placesList()[i].marker.setMap(map);
+	function hidePoints(event) {
+		console.log('hidePoints clicked, with selection ' + event.data.selection);
+		for (var i = 0; i < self.placesList().length; i++) {
+			if (event.data.selection == 'All') {
+				self.placesList()[i].marker.setMap(null);
+			} else {
+				if (self.placesList()[i].type == event.data.selection) {
+					self.placesList()[i].marker.setMap(null);
+				}
+			}
+			
 		}
 	}
+	
+	function showPoints(event) {
+		console.log('showPoints clicked, with selection ' + event.data.selection);
+		for (var i = 0; i < self.placesList().length; i++) {
+			if (event.data.selection == 'All') {
+				self.placesList()[i].marker.setMap(map);
+			} else {
+				if (self.placesList()[i].type == event.data.selection) {
+					self.placesList()[i].marker.setMap(map);
+				}
+			}
+			
+		}
+	}
+	
+	
 }
 
 

@@ -7,7 +7,7 @@ var places = [{
 		},
 		type: 'attraction',
 		fourSqID: '',
-		gPlaceID: '7656260f957b68a9673d268fed9f07d30bd5f06a'
+		gPlaceID: 'ChIJ98CZIJrHh0gRWApM5esemkY'
 	},
 
 	{
@@ -18,7 +18,7 @@ var places = [{
 		},
 		type: 'attraction',
 		fourSqID: '',
-		gPlaceID: '102c0de3e8d21d1511aaf54c8699ecc636cdb64d'
+		gPlaceID: 'ChIJucbdTWO4h0gR9_dSjRgIAXs'
 	}, {
 		title: "Royal Yacht Britannia",
 		location: {
@@ -27,7 +27,7 @@ var places = [{
 		},
 		type: 'attraction',
 		fourSqID: '',
-		gPlaceID: '227950d8c495494a7120d1a054f55c36dd2be003'
+		gPlaceID: 'ChIJ7xHasgG4h0gRdMGn6H6V9e8'
 	}, {
 		title: "The Witchery",
 		location: {
@@ -36,16 +36,16 @@ var places = [{
 		},
 		type: 'restaurant',
 		fourSqID: '4bce2e1eef109521b1aa8386',
-		gPlaceID: '729b80487507e8ddaf259370c6813b44182a28d9'
+		gPlaceID: 'ChIJNfElXprHh0gR61-eo29tIRs'
 	}, {
-		title: "The Kitchen",
+		title: "The Kitchin",
 		location: {
 			lat: 55.97703809999999,
 			lng: -3.1726892
 		},
 		type: 'restaurant',
 		fourSqID: '4b59ff2bf964a5209ca628e3',
-		gPlaceID: 'c1b1a2a52d3d945b085f6bda7ab4a439a592428c'
+		gPlaceID: 'ChIJLy3eIwS4h0gRe4oubEitnNQ'
 	}
 ];
 
@@ -55,9 +55,12 @@ var markers;
 var defaultIcon;
 var highlightIcon;
 var infoWindow;
+var service;
 var fourSqClientID = 'PTZJNN0ILNJ4HWNC0J2LUI2UW02C0Q3SVLYBRASAJLK4MELP';
 var fourSqClientSecret = '33SQ5OOVGO1HOJOZLSI3DUCWBMDGCHGUYNRBUER2RRAVV2IC';
 var $error_report = $('#error_report');
+
+
 
 // Note - have added an index, to map to the parent object called placesList
 var Place = function(data, index) {
@@ -66,6 +69,7 @@ var Place = function(data, index) {
 	self.title = ko.observable(data.title);
 	self.type = data.type;
 	self.fourSqID = data.fourSqID;
+	self.gPlaceID = data.gPlaceID;
 	self.location = data.location;
 	self.clicked = function() {
 		this.marker.setMap(map);
@@ -75,18 +79,19 @@ var Place = function(data, index) {
 	self.selected = ko.observable(false);
 	self.visible = ko.observable(true);
 	self.description = self.title() + ", Edinburgh";
-	self.infoWindow = new google.maps.InfoWindow({
-		content: self.description
-	});
+	//self.infoWindow = new google.maps.InfoWindow({
+	//	content: self.description
+	//});
 	self.marker = new google.maps.Marker({
 		position: self.location,
 		title: self.title(),
-		animation: google.maps.Animation.DROP
+		animation: google.maps.Animation.DROP,
+		gPlaceID: self.gPlaceID
 	});
 	self.marker.setIcon(defaultIcon);
 	self.marker.setMap(map);
 	self.marker.addListener('click', function() {
-		populateInfoWindow(this, largeInfowindow);
+		populateInfoWindow(this, infoWindow);
 		//self.infoWindow.open(map, this);
 	});
 	self.marker.addListener('mouseover', function() {
@@ -104,6 +109,8 @@ var Place = function(data, index) {
 
 		$.getJSON(fourSqUrl)
 			.done(function(data) {
+				if (data.response.venue.contact.formattedPhone)
+					{self.formattedPhone = data.response.venue.contact.formattedPhone;}
 			console.log(data.response);
 		}).fail(function(e) {
 			var errStr = ('Failed to retrieve data from FourSquare. ' +
@@ -141,7 +148,6 @@ var Place = function(data, index) {
 //-------------- ViewModel ---------------------------------------------------//
 var AppViewModel = function() {
 	var self = this;
-	var InfoWindow = new google.maps.InfoWindow();
 	
 	self.placesList = ko.observableArray([]);
 	places.forEach(function(place, index) {
@@ -243,6 +249,9 @@ function initMap() {
 		new google.maps.Point(0, 0),
 		new google.maps.Point(10, 34),
 		new google.maps.Size(21, 34));
+	
+	infoWindow = new google.maps.InfoWindow();
+	service = new google.maps.places.PlacesService(map);
 
 	// Activate knockout.js
 	ko.applyBindings(new AppViewModel());
@@ -252,15 +261,30 @@ function initMap() {
 function populateInfoWindow(marker, infoWindow) {
 	// check to make sure the infoWindow is not already this one.
 	if (infoWindow.marker != marker) {
+		
+		var content = ('<div>' + marker.title + '</div>');
+		service.getDetails({placeId: marker.gPlaceID}, function (place, status) {
+			console.log(status);
+			if (status === google.maps.places.PlacesServiceStatus.OK) {
+				console.log(place.formatted_address);
+				content += ('<div>' +place.formatted_address +'</div>');
+			}
+		});
+		infoWindow.setContent(content);
+		//infoWindow.setContent('<div>' + marker.title + '</div>');
 		infoWindow.marker = marker;
-		infoWindow.setContent('<div>' + marker.title + '</div>');
-		infoWindow.open(map, marker);
+		//infoWindow.open(map, marker);
 		// Make sure the marker property is cleared if the infowindow is closed.
 		infoWindow.addListener('closeclick', function() {
 			infoWindow.setMarker = null;
 		});
+		
+		infoWindow.open(map, marker);	
 	}
+	
 };
+
+
 
 
 

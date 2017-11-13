@@ -164,17 +164,21 @@ var AppViewModel = function() {
 	$('#show-restaurants').click({
 		selection: 'restaurant'
 	}, showPoints);
+	$("#target").change(function() {
+		var $selection = $('#target').val();
+		showOnlyPoints($selection);
+		}
+	);
 
 	function hidePoints(event) {
 		for (var i = 0; i < self.placesList().length; i++) {
-			if (event.data.selection == 'all') {
+			if (event || event.data.selection == 'all') {
 				self.placesList()[i].marker.setMap(null);
 			} else {
 				if (self.placesList()[i].type == event.data.selection) {
 					self.placesList()[i].marker.setMap(null);
 				}
 			}
-
 		}
 	}
 
@@ -187,13 +191,15 @@ var AppViewModel = function() {
 					self.placesList()[i].marker.setMap(map);
 				}
 			}
-
 		}
 	}
-
-
+	
+	function showOnlyPoints(selection) {
+		hidePoints('all');
+		var event ={data: {selection: selection}};
+		showPoints(event);
+	}
 }
-
 
 //Initialize the map - this is called in callback after googlemaps api link
 

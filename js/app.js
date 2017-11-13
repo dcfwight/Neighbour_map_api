@@ -68,6 +68,7 @@ var Place = function(data, index) {
 	self.location = data.location;
 	self.clicked = function() {
 		this.marker.setMap(map);
+		this.marker.animation = google.maps.Animation.BOUNCE;
 	};
 	self.selected = ko.observable(false);
 	self.visible = ko.observable(true);
@@ -83,15 +84,12 @@ var Place = function(data, index) {
 	self.marker.setIcon(defaultIcon);
 	self.marker.setMap(map);
 	self.marker.addListener('click', function() {
-		console.log(self.type);
 		self.infoWindow.open(map, this);
 	});
 	self.marker.addListener('mouseover', function() {
-		console.log('mouseover');
 		self.marker.setIcon(highlightIcon);
 	});
 	self.marker.addListener('mouseout', function() {
-		console.log('mouseout');
 		self.marker.setIcon(defaultIcon);
 	});
 	//console.log(self.title() + ' added. It is a ' + self.type);
@@ -169,6 +167,7 @@ var AppViewModel = function() {
 		showOnlyPoints($selection);
 		}
 	);
+	$('#reset').click(initMap);
 
 	function hidePoints(event) {
 		for (var i = 0; i < self.placesList().length; i++) {
@@ -227,7 +226,7 @@ var AppViewModel = function() {
 			map.fitBounds(bounds);
 		}
 
-		var defaultIcon = new google.maps.MarkerImage(
+		defaultIcon = new google.maps.MarkerImage(
 			'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|' + '0091ef' +
 			'|40|_|%E2%80%A2',
 			new google.maps.Size(21, 34),
@@ -235,7 +234,7 @@ var AppViewModel = function() {
 			new google.maps.Point(10, 34),
 			new google.maps.Size(21, 34));
 
-		var highlightIcon = new google.maps.MarkerImage(
+		highlightIcon = new google.maps.MarkerImage(
 			'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|' + 'FFFF24' +
 			'|40|_|%E2%80%A2',
 			new google.maps.Size(21, 34),

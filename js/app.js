@@ -147,10 +147,10 @@ var AppViewModel = function() {
 	});
 
 	$('#hide-points').click({
-		selection: 'All'
+		selection: 'all'
 	}, hidePoints);
 	$('#show-points').click({
-		selection: 'All'
+		selection: 'all'
 	}, showPoints);
 	$('#hide-attractions').click({
 		selection: 'attraction'
@@ -166,9 +166,8 @@ var AppViewModel = function() {
 	}, showPoints);
 
 	function hidePoints(event) {
-		console.log('hidePoints clicked, with selection ' + event.data.selection);
 		for (var i = 0; i < self.placesList().length; i++) {
-			if (event.data.selection == 'All') {
+			if (event.data.selection == 'all') {
 				self.placesList()[i].marker.setMap(null);
 			} else {
 				if (self.placesList()[i].type == event.data.selection) {
@@ -180,9 +179,8 @@ var AppViewModel = function() {
 	}
 
 	function showPoints(event) {
-		console.log('showPoints clicked, with selection ' + event.data.selection);
 		for (var i = 0; i < self.placesList().length; i++) {
-			if (event.data.selection == 'All') {
+			if (event.data.selection == 'all') {
 				self.placesList()[i].marker.setMap(map);
 			} else {
 				if (self.placesList()[i].type == event.data.selection) {

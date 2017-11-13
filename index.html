@@ -19,9 +19,10 @@
 			<ul data-bind="foreach: placesList">
 				<li data-bind="text: title, click: clicked"></li>
 			</ul>
+			<hr>
 			<div>
-				<input id="show-points" class='hide_show' type="button" value="Show Points">
-				<input id="hide-points" class='hide_show' type="button" value="Hide Points">
+				<input id="show-points" class='hide_show' type="button" value="Show All">
+				<input id="hide-points" class='hide_show' type="button" value="Hide All">
 			</div>
 			<div>
 				<input id="show-attractions" class='hide_show' type="button" value="Show Atractions">
@@ -31,7 +32,18 @@
 				<input id="show-restaurants" class='hide_show' type="button" value="Show Restaurants">
 				<input id="hide-restaurants" class='hide_show' type="button" value="Hide Restaurants">
 			</div>
+			<hr>
+			<div>
+				<h3>Show me: </h3>
+				<select>
+					<option value="all">All</option>
+					<option value="attraction">Attractions</option>
+					<option value="restaurant">Restaurants</option>
+				</select>
+			</div>
+
 		</div>
+		
 		<div id="map"></div>
 	</div>
 	

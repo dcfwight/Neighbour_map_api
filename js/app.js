@@ -261,18 +261,41 @@ function initMap() {
 function populateInfoWindow(marker, infoWindow) {
 	// check to make sure the infoWindow is not already this one.
 	if (infoWindow.marker != marker) {
-		
-		var content = ('<div>' + marker.title + '</div>');
 		service.getDetails({placeId: marker.gPlaceID}, function (place, status) {
 			console.log(status);
 			if (status === google.maps.places.PlacesServiceStatus.OK) {
-				console.log(place.formatted_address);
-				content += ('<div>' +place.formatted_address +'</div>');
+				infoWindow.marker = marker;
+				var innerHTML= '';
+				innerHTML += '<div>' + marker.title + '</div>';
+				if (place.formatted_address) {
+					console.log(place.formatted_address);
+					innerHTML += ('<div>' +place.formatted_address +'</div>');
+				} if (place.formatted_phone_number) {
+            innerHTML += '<br>' + place.formatted_phone_number;
+          }
+          if (place.opening_hours) {
+            innerHTML += '<br><br><strong>Hours:</strong><br>' +
+                place.opening_hours.weekday_text[0] + '<br>' +
+                place.opening_hours.weekday_text[1] + '<br>' +
+                place.opening_hours.weekday_text[2] + '<br>' +
+                place.opening_hours.weekday_text[3] + '<br>' +
+                place.opening_hours.weekday_text[4] + '<br>' +
+                place.opening_hours.weekday_text[5] + '<br>' +
+                place.opening_hours.weekday_text[6];
+          }
+          if (place.photos) {
+            innerHTML += '<br><br><img src="' + place.photos[0].getUrl(
+                {maxHeight: 100, maxWidth: 200}) + '">';
+          }
+          innerHTML += '</div>';
+				
+				infoWindow.setContent(innerHTML);
+				
 			}
 		});
-		infoWindow.setContent(content);
+		//infoWindow.setContent(content);
 		//infoWindow.setContent('<div>' + marker.title + '</div>');
-		infoWindow.marker = marker;
+		
 		//infoWindow.open(map, marker);
 		// Make sure the marker property is cleared if the infowindow is closed.
 		infoWindow.addListener('closeclick', function() {

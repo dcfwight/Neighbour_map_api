@@ -86,7 +86,8 @@ var Place = function(data, index) {
 		position: self.location,
 		title: self.title(),
 		animation: google.maps.Animation.DROP,
-		gPlaceID: self.gPlaceID
+		gPlaceID: self.gPlaceID,
+		fourSqID: self.fourSqID
 	});
 	self.marker.setIcon(defaultIcon);
 	self.marker.setMap(map);
@@ -100,25 +101,8 @@ var Place = function(data, index) {
 	self.marker.addListener('mouseout', function() {
 		self.marker.setIcon(defaultIcon);
 	});
-	//console.log(self.title() + ' added. It is a ' + self.type);
-	if (self.type == 'restaurant' && self.fourSqID) {
-		var fourSqUrl = ('https://api.foursquare.com/v2/venues/' + self.fourSqID +
-			'?client_id=' + fourSqClientID +
-			'&client_secret=' + fourSqClientSecret +
-			'&v=20171111');
-
-		$.getJSON(fourSqUrl)
-			.done(function(data) {
-				if (data.response.venue.contact.formattedPhone)
-					{self.formattedPhone = data.response.venue.contact.formattedPhone;}
-			console.log(data.response);
-		}).fail(function(e) {
-			var errStr = ('Failed to retrieve data from FourSquare. ' +
-				e.status + ': ' + e.statusText);
-			console.log(errStr);
-			$error_report.text(errStr);
-		});
-	}
+	
+	
 	if (self.type == 'attraction') {
 		var title_adjust = self.title().replace(new RegExp(" ", "g"), '+');
 		var wikiUrl = ('https://en.wikipedia.org/w/api.php?action=opensearch' +
@@ -275,38 +259,55 @@ function populateInfoWindow(marker, infoWindow) {
 					console.log(place.formatted_address);
 					innerHTML += ('<div>' +place.formatted_address +'</div>');
 				} if (place.formatted_phone_number) {
-            innerHTML += '<br>' + place.formatted_phone_number;
-          }
-          if (place.opening_hours) {
-            innerHTML += '<br><br><strong>Hours:</strong><br>' +
-                place.opening_hours.weekday_text[0] + '<br>' +
-                place.opening_hours.weekday_text[1] + '<br>' +
-                place.opening_hours.weekday_text[2] + '<br>' +
-                place.opening_hours.weekday_text[3] + '<br>' +
-                place.opening_hours.weekday_text[4] + '<br>' +
-                place.opening_hours.weekday_text[5] + '<br>' +
-                place.opening_hours.weekday_text[6];
-          }
-          if (place.photos) {
-            innerHTML += '<br><br><img src="' + place.photos[0].getUrl(
-                {maxHeight: 100, maxWidth: 200}) + '">';
-          }
-          innerHTML += '</div>';
-				
-				infoWindow.setContent(innerHTML);
-				
+					innerHTML += '<br>' + place.formatted_phone_number;
 			}
-		});
-		//infoWindow.setContent(content);
-		//infoWindow.setContent('<div>' + marker.title + '</div>');
-		
-		//infoWindow.open(map, marker);
-		// Make sure the marker property is cleared if the infowindow is closed.
-		infoWindow.addListener('closeclick', function() {
-			infoWindow.setMarker = null;
-		});
-		
-		infoWindow.open(map, marker);	
+			if (place.opening_hours) {
+				innerHTML += '<br><br><strong>Hours:</strong><br>' +
+				place.opening_hours.weekday_text[0] + '<br>' +
+				place.opening_hours.weekday_text[1] + '<br>' +
+				place.opening_hours.weekday_text[2] + '<br>' +
+				place.opening_hours.weekday_text[3] + '<br>' +
+				place.opening_hours.weekday_text[4] + '<br>' +
+				place.opening_hours.weekday_text[5] + '<br>' +
+				place.opening_hours.weekday_text[6];
+			}
+			if (place.photos) {
+			innerHTML += '<br><br><img src="' + place.photos[0].getUrl(
+				{maxHeight: 100, maxWidth: 200}) + '">';
+			}
+			innerHTML += '</div>';
+			if (marker.fourSqID) {
+				console.log('innerHTML is: ' + innerHTML);
+				console.log('foursq id');
+				//console.log
+				var fourSqUrl = ('https://api.foursquare.com/v2/venues/' + marker.fourSqID +
+				'?client_id=' + fourSqClientID +
+				'&client_secret=' + fourSqClientSecret +
+				'&v=20171111');
+	
+				$.getJSON(fourSqUrl)
+					.done(function(data) {
+						if (data.response.venue.price.message) {
+							innerHTML += '<div>' + data.response.venue.price.message +'</div>';
+							infoWindow.setContent(innerHTML);
+						}
+					}).fail(function(e) {
+						var errStr = ('Failed to retrieve data from FourSquare. ' +
+						e.status + ': ' + e.statusText);
+						console.log(errStr);
+						$error_report.text(errStr);
+						infoWindow.setContent(innerHTML);
+				});
+			} else {
+				infoWindow.setContent(innerHTML);
+			}
+		}
+	});
+	infoWindow.addListener('closeclick', function() {
+		infoWindow.setMarker = null;
+	});
+	
+	infoWindow.open(map, marker);	
 	}
 	
 };

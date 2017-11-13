@@ -155,18 +155,16 @@ function initMap  () {
 	console.log('Google maps API call completed - initializing map');
 	var edinburgh = {lat: 55.9533, lng: -3.1833};
 	//var markers = [];
-
-	try {map = new google.maps.Map(document.getElementById('map'),
-			{center: edinburgh,
-			zoom: 10,
-			styles: styles
-			}
-		);
-	}
 	
-	catch (err) {
-		console.log(err.message);
-	}
+	map = new google.maps.Map(document.getElementById('map'),
+		{center: edinburgh,
+		zoom: 10,
+		styles: styles
+		}
+	);
+	
+	
+	
 	var bounds = new google.maps.LatLngBounds();
 	
 	// extend the bounds for all the items in places

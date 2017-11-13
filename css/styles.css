@@ -27,7 +27,7 @@
 	 text-align: center;
  }
 
- #hide-points, #show-points {
+ .hide_show {
 	 width: 48%;
  }
 

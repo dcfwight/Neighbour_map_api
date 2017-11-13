@@ -192,15 +192,19 @@ var AppViewModel = function() {
 	}
 
 	function showPoints(event) {
+		var bounds = new google.maps.LatLngBounds();
 		for (var i = 0; i < self.placesList().length; i++) {
 			if (event.data.selection == 'all') {
 				self.placesList()[i].marker.setMap(map);
+				bounds.extend(self.placesList()[i].marker.position);
 			} else {
 				if (self.placesList()[i].type == event.data.selection) {
 					self.placesList()[i].marker.setMap(map);
+					bounds.extend(self.placesList()[i].marker.position);
 				}
 			}
 		}
+		map.fitBounds(bounds);
 	}
 	
 	function showOnlyPoints(selection) {

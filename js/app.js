@@ -54,6 +54,7 @@ var map;
 var markers;
 var defaultIcon;
 var highlightIcon;
+var infoWindow;
 var fourSqClientID = 'PTZJNN0ILNJ4HWNC0J2LUI2UW02C0Q3SVLYBRASAJLK4MELP';
 var fourSqClientSecret = '33SQ5OOVGO1HOJOZLSI3DUCWBMDGCHGUYNRBUER2RRAVV2IC';
 var $error_report = $('#error_report');
@@ -68,6 +69,7 @@ var Place = function(data, index) {
 	self.location = data.location;
 	self.clicked = function() {
 		this.marker.setMap(map);
+		this.marker.icon = highlightIcon;
 		this.marker.animation = google.maps.Animation.BOUNCE;
 	};
 	self.selected = ko.observable(false);
@@ -84,7 +86,8 @@ var Place = function(data, index) {
 	self.marker.setIcon(defaultIcon);
 	self.marker.setMap(map);
 	self.marker.addListener('click', function() {
-		self.infoWindow.open(map, this);
+		populateInfoWindow(this, largeInfowindow);
+		//self.infoWindow.open(map, this);
 	});
 	self.marker.addListener('mouseover', function() {
 		self.marker.setIcon(highlightIcon);
@@ -138,7 +141,8 @@ var Place = function(data, index) {
 //-------------- ViewModel ---------------------------------------------------//
 var AppViewModel = function() {
 	var self = this;
-
+	var InfoWindow = new google.maps.InfoWindow();
+	
 	self.placesList = ko.observableArray([]);
 	places.forEach(function(place, index) {
 		self.placesList.push(new Place(place, index));
@@ -202,65 +206,61 @@ var AppViewModel = function() {
 
 //Initialize the map - this is called in callback after googlemaps api link
 
-	function initMap() {
-		console.log('Google maps API call completed - initializing map');
-		var edinburgh = {
-			lat: 55.9533,
-			lng: -3.1833
-		};
-		//var markers = [];
+function initMap() {
+	console.log('Google maps API call completed - initializing map');
+	var edinburgh = {
+		lat: 55.9533,
+		lng: -3.1833
+	};
+	//var markers = [];
 
-		map = new google.maps.Map(document.getElementById('map'), {
-			center: edinburgh,
-			zoom: 10,
-			styles: styles
-		});
+	map = new google.maps.Map(document.getElementById('map'), {
+		center: edinburgh,
+		zoom: 10,
+		styles: styles
+	});
 
+	var bounds = new google.maps.LatLngBounds();
 
-
-		var bounds = new google.maps.LatLngBounds();
-
-		// extend the bounds for all the items in places
-		for (var i = 0; i < places.length; i++) {
-			bounds.extend(places[i].location);
-			map.fitBounds(bounds);
-		}
-
-		defaultIcon = new google.maps.MarkerImage(
-			'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|' + '0091ef' +
-			'|40|_|%E2%80%A2',
-			new google.maps.Size(21, 34),
-			new google.maps.Point(0, 0),
-			new google.maps.Point(10, 34),
-			new google.maps.Size(21, 34));
-
-		highlightIcon = new google.maps.MarkerImage(
-			'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|' + 'FFFF24' +
-			'|40|_|%E2%80%A2',
-			new google.maps.Size(21, 34),
-			new google.maps.Point(0, 0),
-			new google.maps.Point(10, 34),
-			new google.maps.Size(21, 34));
-
-		// Activate knockout.js
-		ko.applyBindings(new AppViewModel());
+	// extend the bounds for all the items in places
+	for (var i = 0; i < places.length; i++) {
+		bounds.extend(places[i].location);
+		map.fitBounds(bounds);
 	}
 
+	defaultIcon = new google.maps.MarkerImage(
+		'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|' + '0091ef' +
+		'|40|_|%E2%80%A2',
+		new google.maps.Size(21, 34),
+		new google.maps.Point(0, 0),
+		new google.maps.Point(10, 34),
+		new google.maps.Size(21, 34));
+
+	highlightIcon = new google.maps.MarkerImage(
+		'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|' + 'FFFF24' +
+		'|40|_|%E2%80%A2',
+		new google.maps.Size(21, 34),
+		new google.maps.Point(0, 0),
+		new google.maps.Point(10, 34),
+		new google.maps.Size(21, 34));
+
+	// Activate knockout.js
+	ko.applyBindings(new AppViewModel());
+}
 
 
-
-	function populateInfoWindow(marker, infoWindow) {
-		// check to make sure the infoWindow is not already this one.
-		if (infoWindow.marker != marker) {
-			infoWindow.marker = marker;
-			infoWindow.setContent('<div>' + marker.title + '</div>');
-			infoWindow.open(map, marker);
-			// Make sure the marker property is cleared if the infowindow is closed.
-			infoWindow.addListener('closeclick', function() {
-				infoWindow.setMarker = null;
-			});
-		}
-	};
+function populateInfoWindow(marker, infoWindow) {
+	// check to make sure the infoWindow is not already this one.
+	if (infoWindow.marker != marker) {
+		infoWindow.marker = marker;
+		infoWindow.setContent('<div>' + marker.title + '</div>');
+		infoWindow.open(map, marker);
+		// Make sure the marker property is cleared if the infowindow is closed.
+		infoWindow.addListener('closeclick', function() {
+			infoWindow.setMarker = null;
+		});
+	}
+};
 
 
 

@@ -16,9 +16,7 @@
 	<div class="container">
 		<div class="options-box" id="marker_list">
 			<h2>Edinburgh Points of Interest</h2>
-			<ul data-bind="foreach: placesList">
-				<li data-bind="text: title, click: $parent.clicked"></li>
-			</ul>
+			
 			<hr>
 			<div>
 				<input id="show-points" class='hide_show' type="button" value="Show All">
@@ -33,6 +31,12 @@
 				<input id="hide-restaurants" class='hide_show' type="button" value="Hide Restaurants">
 			</div>
 			<hr>
+			<ul data-bind="foreach: placesList">
+				<div data-bind="if: visible">
+					<span data-bind="text: title, click: $parent.clicked"></span>	
+				</div>
+				
+			</ul>
 			<div>
 				<h3>Show me: </h3>
 				<select id="target">

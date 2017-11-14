@@ -76,7 +76,6 @@ var Place = function(data, index) {
 		this.marker.icon = highlightIcon;
 		this.marker.animation = google.maps.Animation.BOUNCE;
 	};
-	self.selected = ko.observable(false);
 	self.visible = ko.observable(true);
 	self.description = self.title() + ", Edinburgh";
 	
@@ -181,9 +180,11 @@ var AppViewModel = function() {
 	function hidePoints(event) {
 		for (var i = 0; i < self.placesList().length; i++) {
 			if (event || event.data.selection == 'all') {
+				self.placesList()[i].visible(false);
 				self.placesList()[i].marker.setMap(null);
 			} else {
 				if (self.placesList()[i].type == event.data.selection) {
+					self.placesList()[i].visible(false);
 					self.placesList()[i].marker.setMap(null);
 				}
 			}
@@ -196,10 +197,12 @@ var AppViewModel = function() {
 		var bounds = new google.maps.LatLngBounds();
 		for (var i = 0; i < self.placesList().length; i++) {
 			if (event.data.selection == 'all') {
+				self.placesList()[i].visible(true);
 				self.placesList()[i].marker.setMap(map);
 				bounds.extend(self.placesList()[i].marker.position);
 			} else {
 				if (self.placesList()[i].type == event.data.selection) {
+					self.placesList()[i].visible(true);
 					self.placesList()[i].marker.setMap(map);
 					bounds.extend(self.placesList()[i].marker.position);
 				}

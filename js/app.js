@@ -82,26 +82,26 @@ var Place = function(data, index) {
 	//self.infoWindow = new google.maps.InfoWindow({
 	//	content: self.description
 	//});
-	self.marker = new google.maps.Marker({
-		position: self.location,
-		title: self.title(),
-		animation: google.maps.Animation.DROP,
-		gPlaceID: self.gPlaceID,
-		fourSqID: self.fourSqID
-	});
-	self.marker.setIcon(defaultIcon);
-	self.marker.setMap(map);
-	self.marker.addListener('click', function() {
-		populateInfoWindow(this, infoWindow);
-		//self.infoWindow.open(map, this);
-	});
-	self.marker.addListener('mouseover', function() {
-		self.marker.setIcon(highlightIcon);
-	});
-	self.marker.addListener('mouseout', function() {
-		self.marker.setIcon(defaultIcon);
-	});
-	
+	//self.marker = new google.maps.Marker({
+	//	position: self.location,
+	//	title: self.title(),
+	//	animation: google.maps.Animation.DROP,
+	//	gPlaceID: self.gPlaceID,
+	//	fourSqID: self.fourSqID
+	//});
+	//self.marker.setIcon(defaultIcon);
+	//self.marker.setMap(map);
+	//self.marker.addListener('click', function() {
+	//	populateInfoWindow(this, infoWindow);
+	//	//self.infoWindow.open(map, this);
+	//});
+	//self.marker.addListener('mouseover', function() {
+	//	self.marker.setIcon(highlightIcon);
+	//});
+	//self.marker.addListener('mouseout', function() {
+	//	self.marker.setIcon(defaultIcon);
+	//});
+	//
 	
 	if (self.type == 'attraction') {
 		var title_adjust = self.title().replace(new RegExp(" ", "g"), '+');
@@ -117,7 +117,7 @@ var Place = function(data, index) {
 			var title = data[1][0];
 			var desc = data[2][0];
 			var url = data[3][0];
-			console.log(mainTitle + ', ' + title + ', ' + desc, url);
+			//console.log(mainTitle + ', ' + title + ', ' + desc, url);
 		}).fail(function(e) {
 			var errStr = ('Failed to retrieve data from Wikipedia. ' +
 				e.status + ': ' + e.statusText);
@@ -134,9 +134,19 @@ var AppViewModel = function() {
 	var self = this;
 	
 	self.placesList = ko.observableArray([]);
-	places.forEach(function(place, index) {
-		self.placesList.push(new Place(place, index));
-	});
+	
+	for (var i=0; i < places.length; i++) {
+		self.placesList.push(new Place(places[i],i));
+	}
+	
+	for (var j=0; j< self.placesList().length; j++) {
+		var place = self.placesList()[j];
+		console.log (place.title());
+	}
+	//
+	//places.forEach(function(place, index) {
+	//	self.placesList.push(new Place(place, index));
+	//});
 
 	$('#hide-points').click({
 		selection: 'all'
@@ -195,6 +205,12 @@ var AppViewModel = function() {
 		hidePoints('all');
 		var event ={data: {selection: selection}};
 		showPoints(event);
+	}
+	
+	function clearMarkerAnimation() {
+		for (var i = 0; i < self.placesList().length; i++) {
+			self.placesList()[i].marker.setAnimation(null);
+		}
 	}
 }
 

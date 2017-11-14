@@ -80,30 +80,7 @@ var Place = function(data, index) {
 	self.description = self.title() + ", Edinburgh";
 	
 	
-	if (self.type == 'attraction') {
-		var title_adjust = self.title().replace(new RegExp(" ", "g"), '+');
-		var wikiUrl = ('https://en.wikipedia.org/w/api.php?action=opensearch' +
-			'&search=' + title_adjust +
-			'&origin=*');
-		var wikiUrlencode = encodeURI(wikiUrl);
-		var mainTitle = '';
-		// get wikipedia data
-		$.getJSON(wikiUrlencode)
-			.done(function(data) {
-			var mainTitle = data[0];
-			var title = data[1][0];
-			var desc = data[2][0];
-			var url = data[3][0];
-			//console.log(mainTitle + ', ' + title + ', ' + desc, url);
-		}).fail(function(e) {
-			var errStr = ('Failed to retrieve data from Wikipedia. ' +
-				e.status + ': ' + e.statusText);
-			console.log(errStr);
-			$error_report.text(errStr);
-		});
-
-
-	}
+	
 };
 
 //-------------- ViewModel ---------------------------------------------------//
@@ -194,6 +171,7 @@ var AppViewModel = function() {
 	function showPoints(event) {
 		infoWindow.setMarker = null;
 		infoWindow.close();
+		clearMarkerAnimation();
 		var bounds = new google.maps.LatLngBounds();
 		for (var i = 0; i < self.placesList().length; i++) {
 			if (event.data.selection == 'all') {

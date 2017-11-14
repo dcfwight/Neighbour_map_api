@@ -141,11 +141,7 @@ var AppViewModel = function() {
 			this.setIcon(defaultIcon);
 		});
 	}
-	//
-	//places.forEach(function(place, index) {
-	//	self.placesList.push(new Place(place, index));
-	//});
-
+	
 	$('#hide-points').click({
 		selection: 'all'
 	}, hidePoints);

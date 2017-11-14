@@ -59,7 +59,7 @@ var service;
 var fourSqClientID = 'PTZJNN0ILNJ4HWNC0J2LUI2UW02C0Q3SVLYBRASAJLK4MELP';
 var fourSqClientSecret = '33SQ5OOVGO1HOJOZLSI3DUCWBMDGCHGUYNRBUER2RRAVV2IC';
 var $error_report = $('#error_report');
-
+var $placeInput = $('#placeInput');
 
 
 // Note - have added an index, to map to the parent object called placesList
@@ -172,6 +172,7 @@ var AppViewModel = function() {
 		infoWindow.setMarker = null;
 		infoWindow.close();
 		clearMarkerAnimation();
+		resetFilter();
 		var bounds = new google.maps.LatLngBounds();
 		for (var i = 0; i < self.placesList().length; i++) {
 			if (event.data.selection == 'all') {
@@ -313,7 +314,32 @@ function populateInfoWindow(marker, infoWindow) {
 	
 };
 
+function placeSearch() {
+    var input, filter, ul, li, a, i;
+    input = document.getElementById('placeInput');
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("placesUL");
+    div = ul.getElementsByTagName("div");
+	for (i = 0; i < div.length; i++) {
+        span = div[i].getElementsByTagName("span")[0];
+        if (span.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            div[i].style.display = "";
+        } else {
+            div[i].style.display = "none";
 
+        }
+    }
+}
+
+function resetFilter() {
+	var ul, li, a, i;
+    document.getElementById('placeInput').value='';
+	ul = document.getElementById("placesUL");
+    div = ul.getElementsByTagName("div");
+	for (i = 0; i < div.length; i++) {
+		div[i].style.display = "";
+    }
+}
 
 var styles = [
 	// Styling object for Googlemaps

@@ -31,7 +31,8 @@
 				<input id="hide-restaurants" class='hide_show' type="button" value="Hide Restaurants">
 			</div>
 			<hr>
-			<ul data-bind="foreach: placesList">
+			<input type="text" id="placeInput" onkeyup="placeSearch()" placeholder="Search for place" title="Type in a place">
+			<ul id="placesUL" data-bind="foreach: placesList">
 				<div data-bind="if: visible">
 					<span data-bind="text: title, click: $parent.clicked"></span>	
 				</div>

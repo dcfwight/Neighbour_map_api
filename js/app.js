@@ -131,6 +131,8 @@ var AppViewModel = function() {
 		place.marker.setIcon(defaultIcon);
 		place.marker.setMap(map);
 		place.marker.addListener('click', function() {
+			clearMarkerAnimation();
+			this.setIcon(highlightIcon);
 			populateInfoWindow(this, infoWindow);
 		//self.infoWindow.open(map, this);
 		});
@@ -148,6 +150,7 @@ var AppViewModel = function() {
 		marker.setIcon(highlightIcon);
 		marker.setAnimation(google.maps.Animation.BOUNCE);
 		marker.setMap(map);
+		populateInfoWindow(marker, infoWindow);
 	}
 	
 	$('#hide-points').click({
@@ -188,6 +191,8 @@ var AppViewModel = function() {
 	}
 
 	function showPoints(event) {
+		infoWindow.setMarker = null;
+		infoWindow.close();
 		var bounds = new google.maps.LatLngBounds();
 		for (var i = 0; i < self.placesList().length; i++) {
 			if (event.data.selection == 'all') {
@@ -205,6 +210,7 @@ var AppViewModel = function() {
 	
 	function showOnlyPoints(selection) {
 		hidePoints('all');
+		infoWindow.close();
 		var event ={data: {selection: selection}};
 		showPoints(event);
 	}
@@ -269,13 +275,11 @@ function populateInfoWindow(marker, infoWindow) {
 	// check to make sure the infoWindow is not already this one.
 	if (infoWindow.marker != marker) {
 		service.getDetails({placeId: marker.gPlaceID}, function (place, status) {
-			console.log(status);
 			if (status === google.maps.places.PlacesServiceStatus.OK) {
 				infoWindow.marker = marker;
 				var innerHTML= '';
 				innerHTML += '<div>' + marker.title + '</div>';
 				if (place.formatted_address) {
-					console.log(place.formatted_address);
 					innerHTML += ('<div>' +place.formatted_address +'</div>');
 				} if (place.formatted_phone_number) {
 					innerHTML += '<br>' + place.formatted_phone_number;
@@ -296,9 +300,6 @@ function populateInfoWindow(marker, infoWindow) {
 			}
 			innerHTML += '</div>';
 			if (marker.fourSqID) {
-				console.log('innerHTML is: ' + innerHTML);
-				console.log('foursq id');
-				//console.log
 				var fourSqUrl = ('https://api.foursquare.com/v2/venues/' + marker.fourSqID +
 				'?client_id=' + fourSqClientID +
 				'&client_secret=' + fourSqClientSecret +

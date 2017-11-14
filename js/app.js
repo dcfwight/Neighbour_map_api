@@ -79,29 +79,7 @@ var Place = function(data, index) {
 	self.selected = ko.observable(false);
 	self.visible = ko.observable(true);
 	self.description = self.title() + ", Edinburgh";
-	//self.infoWindow = new google.maps.InfoWindow({
-	//	content: self.description
-	//});
-	//self.marker = new google.maps.Marker({
-	//	position: self.location,
-	//	title: self.title(),
-	//	animation: google.maps.Animation.DROP,
-	//	gPlaceID: self.gPlaceID,
-	//	fourSqID: self.fourSqID
-	//});
-	//self.marker.setIcon(defaultIcon);
-	//self.marker.setMap(map);
-	//self.marker.addListener('click', function() {
-	//	populateInfoWindow(this, infoWindow);
-	//	//self.infoWindow.open(map, this);
-	//});
-	//self.marker.addListener('mouseover', function() {
-	//	self.marker.setIcon(highlightIcon);
-	//});
-	//self.marker.addListener('mouseout', function() {
-	//	self.marker.setIcon(defaultIcon);
-	//});
-	//
+	
 	
 	if (self.type == 'attraction') {
 		var title_adjust = self.title().replace(new RegExp(" ", "g"), '+');
@@ -141,7 +119,27 @@ var AppViewModel = function() {
 	
 	for (var j=0; j< self.placesList().length; j++) {
 		var place = self.placesList()[j];
-		console.log (place.title());
+		//console.log (place.title());
+		//console.log (place.index);
+		place.marker = new google.maps.Marker({
+			position: place.location,
+			title: place.title(),
+			animation: google.maps.Animation.DROP,
+			gPlaceID: place.gPlaceID,
+			fourSqID: place.fourSqID
+		});
+		place.marker.setIcon(defaultIcon);
+		place.marker.setMap(map);
+		place.marker.addListener('click', function() {
+			populateInfoWindow(this, infoWindow);
+		//self.infoWindow.open(map, this);
+		});
+		place.marker.addListener('mouseover', function() {
+			this.setIcon(highlightIcon);
+		});
+		place.marker.addListener('mouseout', function() {
+			this.setIcon(defaultIcon);
+		});
 	}
 	//
 	//places.forEach(function(place, index) {

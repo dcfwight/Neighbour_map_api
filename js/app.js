@@ -203,6 +203,8 @@ var AppViewModel = function() {
 			self.placesList()[i].marker.setIcon(defaultIcon);
 		}
 	}
+	
+	
 }
 
 //Initialize the map - this is called in callback after googlemaps api link

@@ -142,6 +142,14 @@ var AppViewModel = function() {
 		});
 	}
 	
+	this.clicked = function() {
+		clearMarkerAnimation();
+		var marker = self.placesList()[this.index].marker;
+		marker.setIcon(highlightIcon);
+		marker.setAnimation(google.maps.Animation.BOUNCE);
+		marker.setMap(map);
+	}
+	
 	$('#hide-points').click({
 		selection: 'all'
 	}, hidePoints);
@@ -166,7 +174,7 @@ var AppViewModel = function() {
 		}
 	);
 	$('#reset').click(initMap);
-
+	
 	function hidePoints(event) {
 		for (var i = 0; i < self.placesList().length; i++) {
 			if (event || event.data.selection == 'all') {
@@ -204,6 +212,7 @@ var AppViewModel = function() {
 	function clearMarkerAnimation() {
 		for (var i = 0; i < self.placesList().length; i++) {
 			self.placesList()[i].marker.setAnimation(null);
+			self.placesList()[i].marker.setIcon(defaultIcon);
 		}
 	}
 }
@@ -321,9 +330,6 @@ function populateInfoWindow(marker, infoWindow) {
 	}
 	
 };
-
-
-
 
 
 

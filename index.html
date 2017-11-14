@@ -17,7 +17,7 @@
 		<div class="options-box" id="marker_list">
 			<h2>Tourist Attractions in Edinburgh</h2>
 			<ul data-bind="foreach: placesList">
-				<li data-bind="text: title, click: clicked"></li>
+				<li data-bind="text: title, click: $parent.clicked"></li>
 			</ul>
 			<hr>
 			<div>

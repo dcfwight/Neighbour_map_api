@@ -4,56 +4,62 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!--<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">-->
+	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/styles.css"></link>
 	<title>Edinburgh Restaurants</title>
 </head>
 
 <body>
-	<div>
-		<p id='error_report'></p>
-	</div>
 	<div class="container">
-		<div class="options-box" id="marker_list">
-			<h3>Edinburgh Restaurants</h2>
+		<div class="row">
+			<div class="col-md-12">
+				<p id='error_report'></p>
+			</div>
 			
-			<hr>
-			<!--<div>
-				<input id="show-points" class='hide_show' type="button" value="Show All">
-				<input id="hide-points" class='hide_show' type="button" value="Hide All">
-			</div>
-			<div>
-				<input id="show-attractions" class='hide_show' type="button" value="Show Atractions">
-				<input id="hide-attractions" class='hide_show' type="button" value="Hide Atractions">
-			</div>
-			<div>
-				<input id="show-restaurants" class='hide_show' type="button" value="Show Restaurants">
-				<input id="hide-restaurants" class='hide_show' type="button" value="Hide Restaurants">
-			</div>-->
-			<!--<hr>-->
-			<input type="text" id="placeInput" onkeyup="placeSearch();" placeholder="Search for place" title="Type in a place">
-			<ul id="placesUL" data-bind="foreach: placesList">
-				<div data-bind="if: visible">
-					<span data-bind="text: title, click: $parent.clicked"></span>	
-				</div>
-				
-			</ul>
-			<div>
-				<h3>Show me: </h3>
-				<select id="target">
-					<option value="all" selected="selected">All</option>
-					<option value="attraction">Attractions</option>
-					<option value="restaurant">Restaurants</option>
-				</select>
-			</div>
-			<hr>
-			<div>
-				<input id='reset' class='full_width' type=button value="Reset Map">
-			</div>
-
 		</div>
-		
-		<div id="map"></div>
+	
+		<div classs="row">
+			<div class="options-box col-md-3" id="marker_list">
+				<h3>Edinburgh Restaurants</h2>
+				
+				<hr>
+				<!--<div>
+					<input id="show-points" class='hide_show' type="button" value="Show All">
+					<input id="hide-points" class='hide_show' type="button" value="Hide All">
+				</div>
+				<div>
+					<input id="show-attractions" class='hide_show' type="button" value="Show Atractions">
+					<input id="hide-attractions" class='hide_show' type="button" value="Hide Atractions">
+				</div>
+				<div>
+					<input id="show-restaurants" class='hide_show' type="button" value="Show Restaurants">
+					<input id="hide-restaurants" class='hide_show' type="button" value="Hide Restaurants">
+				</div>-->
+				<!--<hr>-->
+				<input type="text" id="placeInput" onkeyup="placeSearch();" placeholder="Search for place" title="Type in a place">
+				<ul id="placesUL" data-bind="foreach: placesList">
+					<div data-bind="if: visible">
+						<span data-bind="text: title, click: $parent.clicked"></span>	
+					</div>
+					
+				</ul>
+				<div>
+					<h3>Show me: </h3>
+					<select id="target">
+						<option value="all" selected="selected">All</option>
+						<option value="attraction">Attractions</option>
+						<option value="restaurant">Restaurants</option>
+					</select>
+				</div>
+				<hr>
+				<div>
+					<input id='reset' class='full_width' type=button value="Reset Map">
+				</div>
+	
+			</div>
+			
+			<div class = "col-md-9" id="map"></div>
+		</div>
 	</div>
 	
 	

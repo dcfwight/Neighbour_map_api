@@ -29,8 +29,10 @@ Next, to use Bower to install the modules listed in the bower.json file, run the
 the directory holding index.html:
 `bower install`
 
+
 ###Launching
 Once the modules have loaded, launch index.html in the browser of your choice.
+
 
 ###Attributions
 The code from Udacity lectures and example code from [googlemaps](https://developers.google.com/maps/) have been used extensively.

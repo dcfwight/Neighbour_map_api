@@ -51,7 +51,6 @@ var places = [{
 
 
 var map;
-var markers;
 var defaultIcon;
 var highlightIcon;
 var infoWindow;
@@ -59,8 +58,6 @@ var service;
 var fourSqClientID = 'PTZJNN0ILNJ4HWNC0J2LUI2UW02C0Q3SVLYBRASAJLK4MELP';
 var fourSqClientSecret = '33SQ5OOVGO1HOJOZLSI3DUCWBMDGCHGUYNRBUER2RRAVV2IC';
 var $error_report = $('#error_report');
-var $placeInput = $('#placeInput');
-
 
 // Note - have added an index, to map to the parent object called placesList
 var Place = function(data, index) {
@@ -94,9 +91,15 @@ var AppViewModel = function() {
 	}
 	
 	for (var j=0; j< self.placesList().length; j++) {
-		var place = self.placesList()[j];
-		//console.log (place.title());
-		//console.log (place.index);
+		createMarker(j);
+	}
+	
+	// for the following code see https://discussions.udacity.com/t/project-neighborhood-map/370281/2
+	// it's a response by swooding on 'functions within loops error'
+	// Note - Udacity lecture code includes functions within loops!
+	function createMarker(i) {
+		//Get the positions from the location array
+		var place = self.placesList()[i];
 		place.marker = new google.maps.Marker({
 			position: place.location,
 			title: place.title(),
@@ -118,6 +121,7 @@ var AppViewModel = function() {
 		place.marker.addListener('mouseout', function() {
 			this.setIcon(defaultIcon);
 		});
+		
 	}
 	
 	this.clicked = function() {
@@ -127,7 +131,7 @@ var AppViewModel = function() {
 		marker.setAnimation(google.maps.Animation.BOUNCE);
 		marker.setMap(map);
 		populateInfoWindow(marker, infoWindow);
-	}
+	};
 	
 	$('#hide-points').click({
 		selection: 'all'
@@ -153,6 +157,8 @@ var AppViewModel = function() {
 		}
 	);
 	$('#reset').click(initMap);
+	
+	
 	
 	function hidePoints(event) {
 		for (var i = 0; i < self.placesList().length; i++) {
@@ -205,7 +211,7 @@ var AppViewModel = function() {
 	}
 	
 	
-}
+};
 
 //Initialize the map - this is called in callback after googlemaps api link
 
@@ -314,10 +320,11 @@ function populateInfoWindow(marker, infoWindow) {
 	infoWindow.open(map, marker);	
 	}
 	
-};
+}
 
 function placeSearch() {
-    var input, filter, ul, li, a, i;
+    //this is used on the placeInput button in html file, so do not delete
+	var input, filter, ul, div, i;
     input = document.getElementById('placeInput');
     filter = input.value.toUpperCase();
     ul = document.getElementById("placesUL");
@@ -334,7 +341,7 @@ function placeSearch() {
 }
 
 function resetFilter() {
-	var ul, li, a, i;
+	var ul, div,  i;
     document.getElementById('placeInput').value='';
 	ul = document.getElementById("placesUL");
     div = ul.getElementsByTagName("div");

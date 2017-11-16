@@ -20,36 +20,13 @@
 	
 		<div classs="row">
 			<div class="options-box col-md-3" id="marker_list">
-				<h3>Edinburgh Restaurants</h2>
-				
+				<h3>Edinburgh Restaurants</h3>
 				<hr>
-				<!--<div>
-					<input id="show-points" class='hide_show' type="button" value="Show All">
-					<input id="hide-points" class='hide_show' type="button" value="Hide All">
-				</div>
-				<div>
-					<input id="show-attractions" class='hide_show' type="button" value="Show Atractions">
-					<input id="hide-attractions" class='hide_show' type="button" value="Hide Atractions">
-				</div>
-				<div>
-					<input id="show-restaurants" class='hide_show' type="button" value="Show Restaurants">
-					<input id="hide-restaurants" class='hide_show' type="button" value="Hide Restaurants">
-				</div>-->
-				<!--<hr>-->
 				<input type="text" id="placeInput" onkeyup="placeSearch();" placeholder="Search for place" title="Type in a place">
-				<ul id="placesUL" data-bind="foreach: placesList">
+				<div id="placesUL" data-bind="foreach: placesList">
 					<div data-bind="if: visible">
 						<span data-bind="text: title, click: $parent.clicked"></span>	
 					</div>
-					
-				</ul>
-				<div>
-					<h3>Show me: </h3>
-					<select id="target">
-						<option value="all" selected="selected">All</option>
-						<option value="attraction">Attractions</option>
-						<option value="restaurant">Restaurants</option>
-					</select>
 				</div>
 				<hr>
 				<div>

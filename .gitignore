@@ -1,3 +1,7 @@
+# folders specific to this project
+# remove the bower components folder - this then gets rebuilt by running bower install
+/bower_components
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

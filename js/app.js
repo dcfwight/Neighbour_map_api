@@ -1,33 +1,33 @@
 //------------Initial data for places---------------------------------------//
-var places = [{
-		title: "Edinburgh Castle",
+var places = [
+		{
+		title: "Loch Fyne Seafood",
 		location: {
-			lat: 55.9485947,
-			lng: -3.1999135
+			lat: 55.981120,
+			lng: -3.194866
 		},
-		type: 'attraction',
-		fourSqID: '',
-		gPlaceID: 'ChIJ98CZIJrHh0gRWApM5esemkY'
-	},
-
-	{
-		title: "Arthur's Seat",
-		location: {
-			lat: 55.94408250000001,
-			lng: -3.1618324
-		},
-		type: 'attraction',
-		fourSqID: '',
-		gPlaceID: 'ChIJucbdTWO4h0gR9_dSjRgIAXs'
+		type: 'restaurant',
+		fourSqID: '4b214c89f964a520c93924e3',
+		gPlaceID: 'ChIJP4Id2PzHh0gRxyf9JTfA2Mw'	
 	}, {
-		title: "Royal Yacht Britannia",
+		title: "the Dogs",
 		location: {
-			lat: 55.9821554,
-			lng: -3.1772521
+			lat:55.9545302,
+			lng:-3.1980785
 		},
-		type: 'attraction',
-		fourSqID: '',
-		gPlaceID: 'ChIJ7xHasgG4h0gRdMGn6H6V9e8'
+		type: 'restaurant',
+		fourSqID: '4b06ce8df964a52095f022e3',
+		gPlaceID: 'ChIJE7uoQZHHh0gRlH_vh2FS9pc'
+		
+	}, {
+		title: "Yo sushi!",
+		location: {
+			lat:55.9521785,
+			lng:-3.1966648
+		},
+		type: 'restaurant',
+		fourSqID: '5480516f498e6462fccfb8a8',
+		gPlaceID: 'ChIJD-4k75DHh0gR-FWBESyD77s'
 	}, {
 		title: "The Witchery",
 		location: {

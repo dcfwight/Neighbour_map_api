@@ -133,24 +133,24 @@ var AppViewModel = function() {
 		populateInfoWindow(marker, infoWindow);
 	};
 	
-	$('#hide-points').click({
-		selection: 'all'
-	}, hidePoints);
-	$('#show-points').click({
-		selection: 'all'
-	}, showPoints);
-	$('#hide-attractions').click({
-		selection: 'attraction'
-	}, hidePoints);
-	$('#show-attractions').click({
-		selection: 'attraction'
-	}, showPoints);
-	$('#hide-restaurants').click({
-		selection: 'restaurant'
-	}, hidePoints);
-	$('#show-restaurants').click({
-		selection: 'restaurant'
-	}, showPoints);
+	//$('#hide-points').click({
+	//	selection: 'all'
+	//}, hidePoints);
+	//$('#show-points').click({
+	//	selection: 'all'
+	//}, showPoints);
+	//$('#hide-attractions').click({
+	//	selection: 'attraction'
+	//}, hidePoints);
+	//$('#show-attractions').click({
+	//	selection: 'attraction'
+	//}, showPoints);
+	//$('#hide-restaurants').click({
+	//	selection: 'restaurant'
+	//}, hidePoints);
+	//$('#show-restaurants').click({
+	//	selection: 'restaurant'
+	//}, showPoints);
 	$("#target").change(function() {
 		var $selection = $('#target').val();
 		showOnlyPoints($selection);

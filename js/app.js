@@ -350,6 +350,11 @@ function resetFilter() {
     }
 }
 
+function mapError() {
+	$error_report.text('Could not load google maps');
+	console.log('Failed to load googlemaps from index.html script');
+}
+
 var styles = [
 	// Styling object for Googlemaps
 	// Go to snazzymaps.com at end of Project to custom style.

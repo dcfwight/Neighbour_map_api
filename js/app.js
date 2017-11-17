@@ -324,34 +324,6 @@ function populateInfoWindow(marker, infoWindow) {
 	
 }
 
-//function placeSearch() {
-//	//this is used on the placeInput button in html file, so do not delete
-//	var input, filter, ul, div, i;
-//	input = document.getElementById('placeInput');
-//	filter = input.value.toUpperCase();
-//	ul = document.getElementById("placesUL");
-//	div = ul.getElementsByTagName("div");
-//	for (i = 0; i < div.length; i++) {
-//		span = div[i].getElementsByTagName("span")[0];
-//		if (span.innerHTML.toUpperCase().indexOf(filter) > -1) {
-//			div[i].style.display = "";
-//		} else {
-//			div[i].style.display = "none";
-//
-//		}
-//	}
-//}
-
-//function resetFilter() {
-//	var ul, div,  i;
-//	document.getElementById('placeInput').value='';
-//	ul = document.getElementById("placesUL");
-//	div = ul.getElementsByTagName("div");
-//	for (i = 0; i < div.length; i++) {
-//		div[i].style.display = "";
-//	}
-//}
-
 function mapError() {
 	$error_report.text('Could not load google maps - check the link');
 	console.log('Failed to load googlemaps from index.html script');

@@ -17,7 +17,7 @@
 	<div class="container">
 		<div class='row'>
 			<header class='col-md-12'>
-				<h1>Edinburgh restaurants</h1>
+				<h1>Edinburgh Restaurants</h1>
 			</header>
 			<hr>
 		</div>
@@ -27,7 +27,7 @@
 				data-bind="textInput: currentFilter">
 				<div class="options-box" id="placesUL" data-bind="foreach: filterPlaces">
 					<div data-bind="if: visible">
-						<span data-bind="text: title, click: $parent.clicked"></span>
+						<span data-bind="text: title, click: $parent.placeClick"></span>
 					</div>
 				</div>
 				<div>

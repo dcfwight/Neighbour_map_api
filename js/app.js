@@ -58,6 +58,7 @@ var service;
 var fourSqClientID = 'PTZJNN0ILNJ4HWNC0J2LUI2UW02C0Q3SVLYBRASAJLK4MELP';
 var fourSqClientSecret = '33SQ5OOVGO1HOJOZLSI3DUCWBMDGCHGUYNRBUER2RRAVV2IC';
 var $error_report = $('#error_report');
+var $reset = $('#reset');
 
 // Note - have added an index, to map to the parent object called placesList
 var Place = function(data, index) {
@@ -95,14 +96,20 @@ var AppViewModel = function() {
 	self.filterPlaces = ko.computed(function() {
 		var filter = self.currentFilter().toLowerCase();
 		if (!filter) {
+			for (var k=0; k< self.placesList().length; k++) {
+				self.placesList()[k].marker.setVisible(true);
+			}
 			return self.placesList();
 		} else {
 			var filtered =  ko.utils.arrayFilter(self.placesList(), function(place) {
-				return place.title().toLowerCase().includes(filter);
-				});
-			for (var k=0; k<5; k++) {
-				console.log(k);
-			}
+				if (place.title().toLowerCase().includes(filter)) {
+					place.marker.setVisible(true);
+					return place;
+				} else {
+					place.marker.setVisible(false);
+				}
+				//return place.title().toLowerCase().includes(filter);
+			});
 			return filtered;
 		}
 	}, AppViewModel);
@@ -143,7 +150,7 @@ var AppViewModel = function() {
 		
 	}
 	
-	this.clicked = function() {
+	this.placeClick = function() {
 		clearMarkerAnimation();
 		var marker = self.placesList()[this.index].marker;
 		marker.setIcon(highlightIcon);
@@ -152,7 +159,7 @@ var AppViewModel = function() {
 		populateInfoWindow(marker, infoWindow);
 	};
 	
-	$('#reset').click(initMap);
+	
 	
 	
 	
@@ -174,7 +181,6 @@ var AppViewModel = function() {
 		infoWindow.setMarker = null;
 		infoWindow.close();
 		clearMarkerAnimation();
-		resetFilter();
 		var bounds = new google.maps.LatLngBounds();
 		for (var i = 0; i < self.placesList().length; i++) {
 			if (event.data.selection == 'all') {
@@ -205,6 +211,7 @@ var AppViewModel = function() {
 			self.placesList()[i].marker.setIcon(defaultIcon);
 		}
 	}
+	
 };
 
 //Initialize the map - this is called in callback after googlemaps api link
@@ -223,14 +230,8 @@ function initMap() {
 		zoom: 10,
 		styles: styles
 	});
-
-	var bounds = new google.maps.LatLngBounds();
-
-	// extend the bounds for all the items in places
-	for (var i = 0; i < places.length; i++) {
-		bounds.extend(places[i].location);
-		map.fitBounds(bounds);
-	}
+	
+	fitMap(map,places);
 
 	defaultIcon = new google.maps.MarkerImage(
 		'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|' + '0091ef' +
@@ -250,9 +251,21 @@ function initMap() {
 	
 	infoWindow = new google.maps.InfoWindow();
 	service = new google.maps.places.PlacesService(map);
+	
+	$reset.click(map, places);
 
 	// Activate knockout.js
 	ko.applyBindings(new AppViewModel());
+}
+
+function fitMap(map, places) {
+	var bounds = new google.maps.LatLngBounds();
+	console.log('fitMap called');
+	// extend the bounds for all the items in places
+	for (var i = 0; i < places.length; i++) {
+		bounds.extend(places[i].location);
+		map.fitBounds(bounds);
+	}
 }
 
 
@@ -319,6 +332,7 @@ function populateInfoWindow(marker, infoWindow) {
 }
 
 function mapError() {
+	// mapError is used as an error callback in index.html - do NOT delete.
 	$error_report.text('Could not load google maps - check the link');
 	console.log('Failed to load googlemaps from index.html script');
 }

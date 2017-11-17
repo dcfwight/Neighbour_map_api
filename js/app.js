@@ -157,60 +157,13 @@ var AppViewModel = function() {
 		marker.setMap(map);
 		populateInfoWindow(marker, infoWindow);
 	};
-	
-	
-	
-	
-	
-	function hidePoints(event) {
-		for (var i = 0; i < self.placesList().length; i++) {
-			if (event || event.data.selection == 'all') {
-				self.placesList()[i].visible(false);
-				self.placesList()[i].marker.setMap(null);
-			} else {
-				if (self.placesList()[i].type == event.data.selection) {
-					self.placesList()[i].visible(false);
-					self.placesList()[i].marker.setMap(null);
-				}
-			}
-		}
-	}
 
-	function showPoints(event) {
-		infoWindow.setMarker = null;
-		infoWindow.close();
-		clearMarkerAnimation();
-		var bounds = new google.maps.LatLngBounds();
-		for (var i = 0; i < self.placesList().length; i++) {
-			if (event.data.selection == 'all') {
-				self.placesList()[i].visible(true);
-				self.placesList()[i].marker.setMap(map);
-				bounds.extend(self.placesList()[i].marker.position);
-			} else {
-				if (self.placesList()[i].type == event.data.selection) {
-					self.placesList()[i].visible(true);
-					self.placesList()[i].marker.setMap(map);
-					bounds.extend(self.placesList()[i].marker.position);
-				}
-			}
-		}
-		map.fitBounds(bounds);
-	}
-	
-	function showOnlyPoints(selection) {
-		hidePoints('all');
-		infoWindow.close();
-		var event ={data: {selection: selection}};
-		showPoints(event);
-	}
-	
 	function clearMarkerAnimation() {
 		for (var i = 0; i < self.placesList().length; i++) {
 			self.placesList()[i].marker.setAnimation(null);
 			self.placesList()[i].marker.setIcon(defaultIcon);
 		}
 	}
-	
 };
 
 //Initialize the map - this is called in callback after googlemaps api link

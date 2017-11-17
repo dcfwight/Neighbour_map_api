@@ -88,11 +88,8 @@ var AppViewModel = function() {
 		self.placesList.push(new Place(places[i],i));
 	}
 	
-	self.test = ko.observable('test item');
-	
 	for (var j=0; j< self.placesList().length; j++) {
 		createMarker(j);
-		console.log(self.placesList()[j].title().toLowerCase());
 	}
 	self.currentFilter = ko.observable(''); // property to store the filter
 	
@@ -104,6 +101,9 @@ var AppViewModel = function() {
 			var filtered =  ko.utils.arrayFilter(self.placesList(), function(place) {
 				return place.title().toLowerCase().includes(filter);
 				});
+			for (var k=0; k<5; k++) {
+				console.log(k);
+			}
 			return filtered;
 		}
 	}, AppViewModel);
@@ -315,6 +315,7 @@ function populateInfoWindow(marker, infoWindow) {
 	});
 	infoWindow.addListener('closeclick', function() {
 		infoWindow.setMarker = null;
+		marker.setIcon(defaultIcon);
 	});
 	
 	infoWindow.open(map, marker);	

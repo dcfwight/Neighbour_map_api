@@ -74,7 +74,6 @@ var Place = function(data, index) {
 		this.marker.animation = google.maps.Animation.BOUNCE;
 	};
 	self.visible = ko.observable(true);
-	self.description = self.title() + ", Edinburgh";
 	self.selected = false;
 };
 
@@ -152,11 +151,7 @@ var AppViewModel = function() {
 		marker.setMap(map);
 		populateInfoWindow(marker, infoWindow);
 	};
-	$("#target").change(function() {
-		var $selection = $('#target').val();
-		showOnlyPoints($selection);
-		}
-	);
+	
 	$('#reset').click(initMap);
 	
 	

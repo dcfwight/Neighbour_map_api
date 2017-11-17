@@ -51,8 +51,7 @@ var places = [
 
 
 var map;
-var defaultIcon;
-var highlightIcon;
+var defaultIcon, highlightIcon, selectIcon;
 var infoWindow;
 var service;
 var fourSqClientID = 'PTZJNN0ILNJ4HWNC0J2LUI2UW02C0Q3SVLYBRASAJLK4MELP';
@@ -135,7 +134,6 @@ var AppViewModel = function() {
 			this.setIcon(highlightIcon);
 			this.selected = true;
 			populateInfoWindow(this, infoWindow);
-		//self.infoWindow.open(map, this);
 		});
 		place.marker.addListener('mouseover', function() {
 			this.setIcon(highlightIcon);
@@ -144,7 +142,6 @@ var AppViewModel = function() {
 			if (this.selected === false){
 				this.setIcon(defaultIcon);
 			}
-			
 		});
 		
 	}
@@ -152,7 +149,7 @@ var AppViewModel = function() {
 	this.placeClick = function() {
 		clearMarkerAnimation();
 		var marker = self.placesList()[this.index].marker;
-		marker.setIcon(highlightIcon);
+		marker.setIcon(selectIcon);
 		marker.setAnimation(google.maps.Animation.BOUNCE);
 		marker.setMap(map);
 		populateInfoWindow(marker, infoWindow);
@@ -185,26 +182,14 @@ function initMap() {
 	
 	fitMap(map,places);
 
-	defaultIcon = new google.maps.MarkerImage(
-		'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|' + '0091ef' +
-		'|40|_|%E2%80%A2',
-		new google.maps.Size(21, 34),
-		new google.maps.Point(0, 0),
-		new google.maps.Point(10, 34),
-		new google.maps.Size(21, 34));
-
-	highlightIcon = new google.maps.MarkerImage(
-		'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|' + 'FFFF24' +
-		'|40|_|%E2%80%A2',
-		new google.maps.Size(21, 34),
-		new google.maps.Point(0, 0),
-		new google.maps.Point(10, 34),
-		new google.maps.Size(21, 34));
+	defaultIcon = markerMaker('0091ef');
+	highlightIcon = markerMaker('FFFF24');
+	selectIcon = markerMaker('46C646');
 	
 	infoWindow = new google.maps.InfoWindow();
 	service = new google.maps.places.PlacesService(map);
 	
-	$reset.click(map, places);
+	$reset.click(fitMap(map, places));
 
 	// Activate knockout.js
 	ko.applyBindings(new AppViewModel());
@@ -220,19 +205,29 @@ function fitMap(map, places) {
 	}
 }
 
+function markerMaker (color) {
+	var icon = new google.maps.MarkerImage(
+		'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|' + color +
+		'|40|_|%E2%80%A2',
+		new google.maps.Size(21, 34),
+		new google.maps.Point(0, 0),
+		new google.maps.Point(10, 34),
+		new google.maps.Size(21, 34)
+	);
+	return icon;
+}
+
 
 function populateInfoWindow(marker, infoWindow) {
-	// check to make sure the infoWindow is not already this one.
-	if (infoWindow.marker != marker) {
-		service.getDetails({placeId: marker.gPlaceID}, function (place, status) {
-			if (status === google.maps.places.PlacesServiceStatus.OK) {
-				infoWindow.marker = marker;
-				var innerHTML= '';
-				innerHTML += '<div>' + marker.title + '</div>';
-				if (place.formatted_address) {
-					innerHTML += ('<div>' +place.formatted_address +'</div>');
-				} if (place.formatted_phone_number) {
-					innerHTML += '<br>' + place.formatted_phone_number;
+	service.getDetails({placeId: marker.gPlaceID}, function (place, status) {
+		if (status === google.maps.places.PlacesServiceStatus.OK) {
+			infoWindow.marker = marker;
+			var innerHTML= '';
+			innerHTML += '<div>' + marker.title + '</div>';
+			if (place.formatted_address) {
+				innerHTML += ('<div>' +place.formatted_address +'</div>');
+			} if (place.formatted_phone_number) {
+				innerHTML += '<br>' + place.formatted_phone_number;
 			}
 			if (place.opening_hours) {
 				innerHTML += '<br><br><strong>Hours:</strong><br>' +
@@ -267,7 +262,7 @@ function populateInfoWindow(marker, infoWindow) {
 						console.log(errStr);
 						$error_report.text(errStr);
 						infoWindow.setContent(innerHTML);
-				});
+			});
 			} else {
 				infoWindow.setContent(innerHTML);
 			}
@@ -276,11 +271,9 @@ function populateInfoWindow(marker, infoWindow) {
 	infoWindow.addListener('closeclick', function() {
 		infoWindow.setMarker = null;
 		marker.setIcon(defaultIcon);
+		marker.setAnimation(null);
 	});
-	
-	infoWindow.open(map, marker);	
-	}
-	
+	infoWindow.open(map, marker);
 }
 
 function mapError() {

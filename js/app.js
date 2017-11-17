@@ -108,7 +108,6 @@ var AppViewModel = function() {
 				} else {
 					place.marker.setVisible(false);
 				}
-				//return place.title().toLowerCase().includes(filter);
 			});
 			return filtered;
 		}

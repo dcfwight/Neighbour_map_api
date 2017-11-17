@@ -23,12 +23,8 @@
 		</div>
 		<div class='row'>
 			<nav class='col-md-2'>
-				<p data-bind="text: test"></p>
 				<input type="text" id="filterInput" placeholder="Filter input"
 				data-bind="textInput: currentFilter">
-				
-				<input type="text" id="placeInput" onkeyup="placeSearch();"
-					   placeholder="Search for restaurant" title="Type in a place">
 				<div class="options-box" id="placesUL" data-bind="foreach: filterPlaces">
 					<div data-bind="if: visible">
 						<span data-bind="text: title, click: $parent.clicked"></span>
@@ -60,7 +56,7 @@
 	<!--Note we are using both async and defer because of a bug in IE browsers-->
 	<!--see https://discussions.udacity.com/t/handling-google-maps-in-async-and-fallback/34282-->
 	<script async defer onerror="mapError()"
-			src="https://maps.googleapis.com/maps/api/js?&key=AIzaSyBCaqWELpjt43Ueno1JfvRMvE5Xz4Ab6xI&v=3&libraries=places,geometry&callback=initMap">
+			src="https://maps.googleapis.com/maps/api/js?&key=AIzaSyBCaqWELpjt43Ueno1JfvRMvE5Xz4Ab6xI&v=3&libraries=places,geometry&callback=initMap">-->
 	</script>
 	
 </body>

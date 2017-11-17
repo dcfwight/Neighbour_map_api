@@ -94,17 +94,17 @@ var AppViewModel = function() {
 		createMarker(j);
 		console.log(self.placesList()[j].title().toLowerCase());
 	}
-	self.currentFilter = ko.observable(); // property to store the filter
+	self.currentFilter = ko.observable(''); // property to store the filter
 	
 	self.filterPlaces = ko.computed(function() {
-		var filter = self.currentFilter();
+		var filter = self.currentFilter().toLowerCase();
 		if (!filter) {
 			return self.placesList();
 		} else {
-			console.log(filter);
-			return ko.utils.arrayFilter(self.placesList(), function(place) {
-				return ko.utils.stringStartsWith(place.title().toLowerCase, filter);
-			});
+			var filtered =  ko.utils.arrayFilter(self.placesList(), function(place) {
+				return place.title().toLowerCase().includes(filter);
+				});
+			return filtered;
 		}
 	}, AppViewModel);
 	
@@ -210,8 +210,6 @@ var AppViewModel = function() {
 			self.placesList()[i].marker.setIcon(defaultIcon);
 		}
 	}
-	
-	
 };
 
 //Initialize the map - this is called in callback after googlemaps api link

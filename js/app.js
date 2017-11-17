@@ -75,9 +75,7 @@ var Place = function(data, index) {
 	};
 	self.visible = ko.observable(true);
 	self.description = self.title() + ", Edinburgh";
-	
-	
-	
+	self.selected = false;
 };
 
 //-------------- ViewModel ---------------------------------------------------//
@@ -105,13 +103,15 @@ var AppViewModel = function() {
 			title: place.title(),
 			animation: google.maps.Animation.DROP,
 			gPlaceID: place.gPlaceID,
-			fourSqID: place.fourSqID
+			fourSqID: place.fourSqID,
+			selected: false
 		});
 		place.marker.setIcon(defaultIcon);
 		place.marker.setMap(map);
 		place.marker.addListener('click', function() {
 			clearMarkerAnimation();
 			this.setIcon(highlightIcon);
+			this.selected = true;
 			populateInfoWindow(this, infoWindow);
 		//self.infoWindow.open(map, this);
 		});
@@ -119,7 +119,10 @@ var AppViewModel = function() {
 			this.setIcon(highlightIcon);
 		});
 		place.marker.addListener('mouseout', function() {
-			this.setIcon(defaultIcon);
+			if (this.selected === false){
+				this.setIcon(defaultIcon);
+			}
+			
 		});
 		
 	}
@@ -280,7 +283,7 @@ function populateInfoWindow(marker, infoWindow) {
 				$.getJSON(fourSqUrl)
 					.done(function(data) {
 						if (data.response.venue.price.message) {
-							innerHTML += '<div>Price level:' + data.response.venue.price.message +'</div>';
+							innerHTML += '<hr><div>Price level: ' + data.response.venue.price.message +'</div>';
 							infoWindow.setContent(innerHTML);
 						}
 					}).fail(function(e) {
@@ -305,31 +308,31 @@ function populateInfoWindow(marker, infoWindow) {
 }
 
 function placeSearch() {
-    //this is used on the placeInput button in html file, so do not delete
+	//this is used on the placeInput button in html file, so do not delete
 	var input, filter, ul, div, i;
-    input = document.getElementById('placeInput');
-    filter = input.value.toUpperCase();
-    ul = document.getElementById("placesUL");
-    div = ul.getElementsByTagName("div");
+	input = document.getElementById('placeInput');
+	filter = input.value.toUpperCase();
+	ul = document.getElementById("placesUL");
+	div = ul.getElementsByTagName("div");
 	for (i = 0; i < div.length; i++) {
-        span = div[i].getElementsByTagName("span")[0];
-        if (span.innerHTML.toUpperCase().indexOf(filter) > -1) {
-            div[i].style.display = "";
-        } else {
-            div[i].style.display = "none";
+		span = div[i].getElementsByTagName("span")[0];
+		if (span.innerHTML.toUpperCase().indexOf(filter) > -1) {
+			div[i].style.display = "";
+		} else {
+			div[i].style.display = "none";
 
-        }
-    }
+		}
+	}
 }
 
 function resetFilter() {
 	var ul, div,  i;
-    document.getElementById('placeInput').value='';
+	document.getElementById('placeInput').value='';
 	ul = document.getElementById("placesUL");
-    div = ul.getElementsByTagName("div");
+	div = ul.getElementsByTagName("div");
 	for (i = 0; i < div.length; i++) {
 		div[i].style.display = "";
-    }
+	}
 }
 
 function mapError() {

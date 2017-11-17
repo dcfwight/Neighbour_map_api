@@ -216,7 +216,8 @@ var AppViewModel = function() {
 //Initialize the map - this is called in callback after googlemaps api link
 
 function initMap() {
-	console.log('Google maps API call completed - initializing map');
+	// first remove the 'loading Googlemaps text'
+	$error_report.text('');
 	var edinburgh = {
 		lat: 55.9533,
 		lng: -3.1833
@@ -351,7 +352,7 @@ function resetFilter() {
 }
 
 function mapError() {
-	$error_report.text('Could not load google maps');
+	$error_report.text('Could not load google maps - check the link');
 	console.log('Failed to load googlemaps from index.html script');
 }
 

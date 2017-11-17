@@ -88,9 +88,26 @@ var AppViewModel = function() {
 		self.placesList.push(new Place(places[i],i));
 	}
 	
+	self.test = ko.observable('test item');
+	
 	for (var j=0; j< self.placesList().length; j++) {
 		createMarker(j);
+		console.log(self.placesList()[j].title().toLowerCase());
 	}
+	self.currentFilter = ko.observable(); // property to store the filter
+	
+	self.filterPlaces = ko.computed(function() {
+		var filter = self.currentFilter();
+		if (!filter) {
+			return self.placesList();
+		} else {
+			console.log(filter);
+			return ko.utils.arrayFilter(self.placesList(), function(place) {
+				return ko.utils.stringStartsWith(place.title().toLowerCase, filter);
+			});
+		}
+	}, AppViewModel);
+	
 	
 	// for the following code see https://discussions.udacity.com/t/project-neighborhood-map/370281/2
 	// it's a response by swooding on 'functions within loops error'
@@ -307,33 +324,33 @@ function populateInfoWindow(marker, infoWindow) {
 	
 }
 
-function placeSearch() {
-	//this is used on the placeInput button in html file, so do not delete
-	var input, filter, ul, div, i;
-	input = document.getElementById('placeInput');
-	filter = input.value.toUpperCase();
-	ul = document.getElementById("placesUL");
-	div = ul.getElementsByTagName("div");
-	for (i = 0; i < div.length; i++) {
-		span = div[i].getElementsByTagName("span")[0];
-		if (span.innerHTML.toUpperCase().indexOf(filter) > -1) {
-			div[i].style.display = "";
-		} else {
-			div[i].style.display = "none";
+//function placeSearch() {
+//	//this is used on the placeInput button in html file, so do not delete
+//	var input, filter, ul, div, i;
+//	input = document.getElementById('placeInput');
+//	filter = input.value.toUpperCase();
+//	ul = document.getElementById("placesUL");
+//	div = ul.getElementsByTagName("div");
+//	for (i = 0; i < div.length; i++) {
+//		span = div[i].getElementsByTagName("span")[0];
+//		if (span.innerHTML.toUpperCase().indexOf(filter) > -1) {
+//			div[i].style.display = "";
+//		} else {
+//			div[i].style.display = "none";
+//
+//		}
+//	}
+//}
 
-		}
-	}
-}
-
-function resetFilter() {
-	var ul, div,  i;
-	document.getElementById('placeInput').value='';
-	ul = document.getElementById("placesUL");
-	div = ul.getElementsByTagName("div");
-	for (i = 0; i < div.length; i++) {
-		div[i].style.display = "";
-	}
-}
+//function resetFilter() {
+//	var ul, div,  i;
+//	document.getElementById('placeInput').value='';
+//	ul = document.getElementById("placesUL");
+//	div = ul.getElementsByTagName("div");
+//	for (i = 0; i < div.length; i++) {
+//		div[i].style.display = "";
+//	}
+//}
 
 function mapError() {
 	$error_report.text('Could not load google maps - check the link');

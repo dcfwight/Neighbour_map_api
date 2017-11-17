@@ -18,7 +18,7 @@
 	border: 1px solid black;
 }
 
-#placeInput {
+#placeInput, #filterInput {
 	font-size: 12px;
 	width: 100%;
 	text-align: left;

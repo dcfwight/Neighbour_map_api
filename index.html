@@ -23,9 +23,13 @@
 		</div>
 		<div class='row'>
 			<nav class='col-md-2'>
+				<p data-bind="text: test"></p>
+				<input type="text" id="filterInput" placeholder="Filter input"
+				data-bind="textInput: currentFilter">
+				
 				<input type="text" id="placeInput" onkeyup="placeSearch();"
 					   placeholder="Search for restaurant" title="Type in a place">
-				<div class="options-box" id="placesUL" data-bind="foreach: placesList">
+				<div class="options-box" id="placesUL" data-bind="foreach: filterPlaces">
 					<div data-bind="if: visible">
 						<span data-bind="text: title, click: $parent.clicked"></span>
 					</div>

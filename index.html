@@ -16,15 +16,15 @@
 <body>
 	<div class="container">
 		<div class='row'>
-			<div class='col-md-12'>
+			<header class='col-md-12'>
 				<h1>Edinburgh restaurants</h1>
-			</div>
+			</header>
 			<hr>
 		</div>
 		<div class='row'>
-			<div class='col-md-2'>
+			<nav class='col-md-2'>
 				<input type="text" id="placeInput" onkeyup="placeSearch();"
-					   placeholder="Search for place" title="Type in a place">
+					   placeholder="Search for restaurant" title="Type in a place">
 				<div class="options-box" id="placesUL" data-bind="foreach: placesList">
 					<div data-bind="if: visible">
 						<span data-bind="text: title, click: $parent.clicked"></span>
@@ -33,13 +33,18 @@
 				<div>
 					<input id='reset' class='full_width' type=button value="Reset Map">
 				</div>
-			</div>
+			</nav>
 			<div class='col-md-10'>
 				<div id="map"></div>
 				<div>
 					<h3 id="error_report">Loading GoogleMaps</h1>
 				</div>
 			</div>
+		</div>
+		<div class='row'>
+			<footer class='col-md-12'>
+				<p>Created by Doug Wight - dcfwight@gmail.com</p>
+			</footer>
 		</div>
 	</div>
 	

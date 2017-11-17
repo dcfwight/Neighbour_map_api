@@ -18,11 +18,19 @@
 	border: 1px solid black;
 }
 
-.input {
-	 font-size: 12px;
+#placeInput {
+	font-size: 12px;
+	width: 100%;
+	text-align: left;
+	
  }
 
-
+#reset {
+	width: 100%;
+}
+footer {
+	text-align: center;
+}
 .options-box {
 	background: #grey;
 	border: 1px solid #999;
@@ -32,4 +40,5 @@
 	padding: 10px 10px 10px 10px;
 	text-align: left;
 	width: 100%;
+	margin: 10px 0px 10px 0px;
  }

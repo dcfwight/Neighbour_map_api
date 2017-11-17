@@ -132,25 +132,6 @@ var AppViewModel = function() {
 		marker.setMap(map);
 		populateInfoWindow(marker, infoWindow);
 	};
-	
-	//$('#hide-points').click({
-	//	selection: 'all'
-	//}, hidePoints);
-	//$('#show-points').click({
-	//	selection: 'all'
-	//}, showPoints);
-	//$('#hide-attractions').click({
-	//	selection: 'attraction'
-	//}, hidePoints);
-	//$('#show-attractions').click({
-	//	selection: 'attraction'
-	//}, showPoints);
-	//$('#hide-restaurants').click({
-	//	selection: 'restaurant'
-	//}, hidePoints);
-	//$('#show-restaurants').click({
-	//	selection: 'restaurant'
-	//}, showPoints);
 	$("#target").change(function() {
 		var $selection = $('#target').val();
 		showOnlyPoints($selection);
@@ -299,7 +280,7 @@ function populateInfoWindow(marker, infoWindow) {
 				$.getJSON(fourSqUrl)
 					.done(function(data) {
 						if (data.response.venue.price.message) {
-							innerHTML += '<div>' + data.response.venue.price.message +'</div>';
+							innerHTML += '<div>Price level:' + data.response.venue.price.message +'</div>';
 							infoWindow.setContent(innerHTML);
 						}
 					}).fail(function(e) {

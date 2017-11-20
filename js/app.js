@@ -61,6 +61,8 @@ var AppViewModel = function() {
 			});
 			return filtered;
 		}
+	
+	self.reset = ko.observable('');
 	}, AppViewModel);
 	
 	
@@ -105,6 +107,12 @@ var AppViewModel = function() {
 		marker.setMap(map);
 		populateInfoWindow(marker, infoWindow);
 	};
+	
+	this.reset = function() {
+		fitMap(map,places);
+		clearMarkerAnimation();
+		infoWindow.close();
+	};
 
 	function clearMarkerAnimation() {
 		for (var i = 0; i < self.placesList().length; i++) {
@@ -139,8 +147,6 @@ function initMap() {
 	
 	infoWindow = new google.maps.InfoWindow();
 	service = new google.maps.places.PlacesService(map);
-	
-	$reset.click(fitMap(map, places));
 
 	// Activate knockout.js
 	ko.applyBindings(new AppViewModel());
@@ -148,7 +154,6 @@ function initMap() {
 
 function fitMap(map, places) {
 	var bounds = new google.maps.LatLngBounds();
-	console.log('fitMap called');
 	// extend the bounds for all the items in places
 	for (var i = 0; i < places.length; i++) {
 		bounds.extend(places[i].location);

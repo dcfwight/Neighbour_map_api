@@ -205,20 +205,44 @@ function populateInfoWindow(marker, infoWindow) {
 				'?client_id=' + fourSqClientID +
 				'&client_secret=' + fourSqClientSecret +
 				'&v=20171111');
-	
-				$.getJSON(fourSqUrl)
-					.done(function(data) {
-						if (data.response.venue.price.message) {
-							innerHTML += '<hr><div>Price level: ' + data.response.venue.price.message +'</div>';
-							infoWindow.setContent(innerHTML);
+
+	// NOTE on the below - have replaced the $.getJSON with the fetch command per
+	// Udacity mentor suggestion. Easier to handle callbacks with promises?
+	// the $.getJSON code works - have left in for future reference.
+				
+				//$.getJSON(fourSqUrl)
+				//	.done(function(data) {
+				//		if (data.response.venue.price.message) {
+				//			innerHTML += '<hr><div>Price level: ' + data.response.venue.price.message +'</div>';
+				//			infoWindow.setContent(innerHTML);
+				//		}
+				//	}).fail(function(e) {
+				//		var errStr = ('Failed to retrieve data from FourSquare. ' +
+				//		e.status + ': ' + e.statusText);
+				//		console.log(errStr);
+				//		$error_report.text(errStr);
+				//		infoWindow.setContent(innerHTML);
+				//});
+				fetch(fourSqUrl)
+					.then(
+						function(response) {
+							if (response.status != 200) {
+								console.log('Error in fetching from FourSquare. ' +
+									'Status Code: ' + response.status);
+								return;
+							}
+							// Examine the text in the response
+							response.json().then(function(data){
+								if (data.response.venue.price.message) {
+									innerHTML += '<hr><div>Price level: ' + data.response.venue.price.message +'</div>';
+									infoWindow.setContent(innerHTML);
+								}
+							});
 						}
-					}).fail(function(e) {
-						var errStr = ('Failed to retrieve data from FourSquare. ' +
-						e.status + ': ' + e.statusText);
-						console.log(errStr);
-						$error_report.text(errStr);
-						infoWindow.setContent(innerHTML);
-			});
+					)
+					.catch(function(err) {
+						console.log('Fetch Error :-S', err);
+					});
 			} else {
 				infoWindow.setContent(innerHTML);
 			}

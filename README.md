@@ -30,11 +30,11 @@ the directory holding index.html:
 `bower install`
 
 
-###Launching
+### Launching
 Once the modules have loaded, launch index.html in the browser of your choice.
 
 
-###Attributions
+### Attributions
 The code from Udacity lectures and example code from [googlemaps](https://developers.google.com/maps/) have been used extensively.
 
 ### Notes on API links

@@ -1,34 +1,25 @@
- Neighbours
- ==========
+# Neighbours
+
 ## Neighbourhood map project for Udacity FSWD
 ### Author - Doug Wight - dcfwight@gmail.com
 
 ### Description
-This is a website, using knocknout, googlemaps API, foursquare API and javascript.
+This is a website, using knockout, googlemaps API, foursquare API and javascript.
 
 ### Module Build
 
-
-
 ### Setup
-Clone / copy the code from github to your local computer
-
-You then need to build the dependent modules to allow the app to work.
-
-This project uses Bower to build the front-end javascript modules required for
+1. Clone / copy the code from github to your local computer
+1. You then need to build the dependent modules to allow the app to work.
+- This project uses Bower to build the front-end javascript modules required for
 the project.
-
-You will need to build these using [Bower](https://bower.io/).
-
-If you don't have Bower, install it using [npm](https://www.npmjs.com/), or other package manager
-
-To install Bower (globally) using npm, enter the following into your terminal:
+1. You will build these using [Bower](https://bower.io/).
+- If you don't have Bower, install it using [npm](https://www.npmjs.com/), or other package manager
+- To install Bower (globally) using npm, enter the following into your terminal:
 `npm install -g bower`
-
-Next, to use Bower to install the modules listed in the bower.json file, run the following code from
+1. Next, to use Bower to install the modules listed in the bower.json file, run the following code from
 the directory holding index.html:
 `bower install`
-
 
 ### Launching
 Once the modules have loaded, launch index.html in the browser of your choice.
